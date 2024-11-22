@@ -1,10 +1,10 @@
-import { useParams, useHistory } from 'react-router-dom'; 
+import { useParams, useNavigate } from 'react-router-dom'; 
 import { semuaKelas } from '../data/index'; 
 import { Card, Button } from 'react-bootstrap';
 
 const KelasDetail = () => {
     const { kelasId } = useParams();
-    const history = useHistory();
+    const navigate = useNavigate();  // Gantilah useHistory dengan useNavigate
 
     // Cari kelas berdasarkan ID yang diberikan
     const kelas = semuaKelas.find(kelas => kelas.id === parseInt(kelasId));
@@ -17,10 +17,7 @@ const KelasDetail = () => {
     // Fungsi untuk menangani klik tombol "Beli"
     const handleBuy = (harga) => {
         // Kirim data harga yang dipilih ke halaman pembayaran
-        history.push({
-            pathname: '/payment',
-            state: { harga } // Kirimkan data harga ke halaman pembayaran
-        });
+        navigate('/payment', { state: { harga } });  // Gantilah history.push dengan navigate
     };
 
     return (

@@ -6,6 +6,7 @@ import NavbarComponent from './components/NavbarComponent';
 import KelasPage from './pages/KelasPage';
 import FooterComponent from './components/FooterComponent';
 import KelasDetail from './pages/KelasDetail';
+import PaymentPage from './pages/PaymentPage';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/kelas" Component={KelasPage} />
         <Route path="/faq" Component={FaqPage} />
         <Route path="/kelas/:kelasId" Component={KelasDetail} /> {/* Rute untuk halaman detail kelas */}
+        <Route path="/payment" Component={PaymentPage} />
       </Routes>
 
 
