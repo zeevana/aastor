@@ -9,29 +9,22 @@ import KelasDetail from './pages/KelasDetail';
 import PaymentPage from './pages/PaymentPage';
 import ProductPage from './pages/ProductPage';
 
-
-
 function App() {
   return (
     <div>
-
       <NavbarComponent />
 
       <Routes>
-        <Route path="/" Component={HomePage} />
-        <Route path="/kelas" Component={KelasPage} />
-        <Route path="/faq" Component={FaqPage} />
-        <Route path="/kelas/:kelasId" Component={KelasDetail} /> {/* Rute untuk halaman detail kelas */}
-        <Route path="/payment" Component={PaymentPage} />
-        <Route path= "/product" Component={ProductPage}/>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/kelas" element={<KelasPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/kelas/:kelasId" element={<KelasDetail />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/product" element={<ProductPage />} />
       </Routes>
-
-
 
       <FooterComponent />
     </div>
-
-
   );
 }
 
