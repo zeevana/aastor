@@ -465,21 +465,52 @@
 
   /*PayemntPage*/
   /* PaymentPage.css */
+/* CSS untuk halaman Payment */
 .payment-container {
     padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.payment-header {
+    font-size: 24px;
     text-align: center;
-}
-
-.payment-summary {
     margin-bottom: 20px;
+}
+
+.payment-details {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.payment-details h4 {
+    margin-bottom: 10px;
+}
+
+.payment-details p {
     font-size: 18px;
+    margin-bottom: 5px;
 }
 
-.payment-gate {
-    margin-top: 20px;
-}
-
-.payment-gate p {
+.payment-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
     font-size: 16px;
-    color: gray;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.payment-button:hover {
+    background-color: #218838;
+}
+
+.payment-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }

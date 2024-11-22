@@ -1,45 +1,52 @@
-import { useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import React, { useState } from 'react';
 
 const PaymentPage = () => {
-    const { state } = useLocation();
-    const [paymentUrl, setPaymentUrl] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [price, setPrice] = useState('Rp 10.000,-'); // Harga contoh
+    const [type, setType] = useState('Item 70 dm');  // Nama item contoh
 
-    useEffect(() => {
-        if (state && state.harga) {
-            // Kirim request ke backend untuk membuat transaksi di Midtrans
-            axios.post('/api/create-transaction', {
-                price: state.harga.price,
-                type: state.harga.type
+    const handlePayment = async () => {
+        setLoading(true);
+        
+        const response = await fetch('/api/create-transaction', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                price: price,
+                type: type
             })
-            .then(response => {
-                setPaymentUrl(response.data.redirect_url);  // URL untuk melanjutkan pembayaran
-            })
-            .catch(error => {
-                console.error("Error during Midtrans payment creation:", error);
-            });
+        });
+
+        const data = await response.json();
+
+        if (data.redirect_url) {
+            // Redirect ke URL pembayaran Midtrans
+            window.location.href = data.redirect_url;
+        } else {
+            alert('Terjadi kesalahan saat memproses pembayaran');
         }
-    }, [state]);
+
+        setLoading(false);
+    };
 
     return (
         <div className="payment-container">
-            <h2>Payment Page</h2>
-            <div className="payment-summary">
-                <p>Item: {state.harga.type}</p>
-                <p>Price: {state.harga.price}</p>
+            <div className="payment-header">
+                <h3>Halaman Pembayaran</h3>
             </div>
-
-            <div className="payment-gate">
-                {paymentUrl ? (
-                    <Button variant="success" onClick={() => window.location.href = paymentUrl}>
-                        Proceed to Payment
-                    </Button>
-                ) : (
-                    <p>Loading payment gateway...</p>
-                )}
+            <div className="payment-details">
+                <h4>Item: {type}</h4>
+                <p>Price: {price}</p>
             </div>
+            <button 
+                className="payment-button" 
+                onClick={handlePayment}
+                disabled={loading}
+            >
+                {loading ? 'Memuat Pembayaran...' : 'Bayar Sekarang'}
+            </button>
         </div>
     );
 };
