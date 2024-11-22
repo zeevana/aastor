@@ -10,7 +10,7 @@ const PaymentPage = () => {
     useEffect(() => {
         if (state && state.harga) {
             // Kirim request ke backend untuk membuat transaksi di Midtrans
-            axios.post('/api/create-payment', {
+            axios.post('/api/create-transaction', {
                 price: state.harga.price,
                 type: state.harga.type
             })
