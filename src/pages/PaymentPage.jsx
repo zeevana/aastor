@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const PaymentPage = () => {
-    const [loading, setLoading] = useState(false);
-    const [price, setPrice] = useState('Rp 10.000,-'); // Harga contoh
-    const [type, setType] = useState('Item 70 dm');  // Nama item contoh
+    const location = useLocation();
+    const { amount, type, image } = location.state || {};  // Mengambil data yang dikirimkan
 
+    const [loading, setLoading] = useState(false);
+
+    // Fungsi untuk menangani pembayaran
     const handlePayment = async () => {
         setLoading(true);
         
@@ -14,7 +17,7 @@ const PaymentPage = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                price: price,
+                price: `Rp ${amount.toLocaleString()}`,  // Format harga dengan pemisah ribuan
                 type: type
             })
         });
@@ -22,7 +25,7 @@ const PaymentPage = () => {
         const data = await response.json();
 
         if (data.redirect_url) {
-            // Redirect ke URL pembayaran Midtrans
+            // Redirect ke URL pembayaran (misalnya ke Midtrans)
             window.location.href = data.redirect_url;
         } else {
             alert('Terjadi kesalahan saat memproses pembayaran');
@@ -31,6 +34,10 @@ const PaymentPage = () => {
         setLoading(false);
     };
 
+    useEffect(() => {
+        console.log('Data yang diterima di PaymentPage:', { amount, type, image }); // Debug data yang diterima
+    }, [amount, type, image]);
+
     return (
         <div className="payment-container">
             <div className="payment-header">
@@ -38,7 +45,8 @@ const PaymentPage = () => {
             </div>
             <div className="payment-details">
                 <h4>Item: {type}</h4>
-                <p>Price: {price}</p>
+                <p>Price: Rp {amount.toLocaleString()}</p>
+                <img src={image} alt={type} width="100" />
             </div>
             <button 
                 className="payment-button" 
