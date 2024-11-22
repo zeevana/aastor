@@ -7,6 +7,7 @@ const ProductPage = () => {
 
   // Fungsi untuk menangani klik beli
   const handleBuy = (amount, type) => {
+    console.log('Mengirim data:', { amount, type }); // Cek data yang dikirim
     navigate("/payment", { state: { amount, type } });  // Kirimkan data ke halaman pembayaran
   };
 
