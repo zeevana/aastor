@@ -7,6 +7,7 @@ import KelasPage from './pages/KelasPage';
 import FooterComponent from './components/FooterComponent';
 import KelasDetail from './pages/KelasDetail';
 import PaymentPage from './pages/PaymentPage';
+import ProductPage from './pages/ProductPage';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/faq" Component={FaqPage} />
         <Route path="/kelas/:kelasId" Component={KelasDetail} /> {/* Rute untuk halaman detail kelas */}
         <Route path="/payment" Component={PaymentPage} />
+        <Route path= "/product" Component={ProductPage}/>
       </Routes>
 
 
