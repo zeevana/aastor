@@ -8,7 +8,7 @@ const ProductPage = () => {
   // Fungsi untuk menangani klik beli
   const handleBuy = (type, price, image) => {
     console.log('Mengirim data:', { type, price, image }); // Cek data yang dikirim
-    navigate("/payment", { state: { type, price, image } });  // Kirimkan data ke halaman pembayaran
+    navigate("/payment", { state: { price, type, image } });  // Kirimkan data ke halaman pembayaran
   };
 
   return (
@@ -23,7 +23,7 @@ const ProductPage = () => {
               <p>{item.type}</p>
               <p>Rp {item.price.toLocaleString("id-ID")}</p>
               {/* Tombol Beli yang akan mengarahkan ke halaman pembayaran */}
-              <button onClick={() => handleBuy(item.price, item.type, item.image)}>Beli</button>
+              <button onClick={() => handleBuy(item.type, item.price, item.image)}>Beli</button>
             </div>
           ))}
         </div>
