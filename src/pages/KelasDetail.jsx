@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom';
-import { semuaKelas } from '../data/index';
-import { Card } from 'react-bootstrap';
+import { useParams, useHistory } from 'react-router-dom'; 
+import { semuaKelas } from '../data/index'; 
+import { Card, Button } from 'react-bootstrap';
 
 const KelasDetail = () => {
     const { kelasId } = useParams();
+    const history = useHistory();
 
     // Cari kelas berdasarkan ID yang diberikan
     const kelas = semuaKelas.find(kelas => kelas.id === parseInt(kelasId));
@@ -13,9 +14,17 @@ const KelasDetail = () => {
         return <div>Kelas tidak ditemukan</div>;
     }
 
+    // Fungsi untuk menangani klik tombol "Beli"
+    const handleBuy = (harga) => {
+        // Kirim data harga yang dipilih ke halaman pembayaran
+        history.push({
+            pathname: '/payment',
+            state: { harga } // Kirimkan data harga ke halaman pembayaran
+        });
+    };
+
     return (
         <div className='box-kl'>
-            {/* <h2 className='title-padding'>List Harga {kelas.title}</h2> */}
             <div className='logo-k mb-3'>
                 <img src={kelas.image} alt={kelas.title} className='logo-l' />
             </div>
@@ -33,12 +42,12 @@ const KelasDetail = () => {
                                 {/* Harga price */}
                                 <Card.Text>{harga.price}</Card.Text>
                             </div>
+                            {/* Tombol Beli */}
+                            <Button onClick={() => handleBuy(harga)} variant="primary">Beli</Button>
                         </Card.Body>
                     </Card>
                 ))}
             </div>
-
-
         </div>
     );
 };
