@@ -1,48 +1,45 @@
-import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Button } from 'react-bootstrap';
-import axios from 'axios'; // Untuk melakukan request API ke server
 
 const PaymentPage = () => {
-    const location = useLocation();
-    const { harga } = location.state; // Ambil data harga yang dikirimkan
-
+    const { state } = useLocation();
     const [paymentUrl, setPaymentUrl] = useState('');
 
     useEffect(() => {
-        // Kirim data harga ke server untuk membuat transaksi Midtrans
-        const createTransaction = async () => {
-            try {
-                const response = await axios.post('/api/create-transaction', {
-                    price: harga.price,
-                    type: harga.type,
-                    // Anda bisa menambahkan data pengguna di sini jika diperlukan
-                });
-
-                // Dapatkan URL pembayaran dari respons server
-                setPaymentUrl(response.data.paymentUrl); 
-            } catch (error) {
-                console.error('Error creating transaction', error);
-            }
-        };
-
-        createTransaction();
-    }, [harga]);
+        if (state && state.harga) {
+            // Kirim request ke backend untuk membuat transaksi di Midtrans
+            axios.post('/api/create-payment', {
+                price: state.harga.price,
+                type: state.harga.type
+            })
+            .then(response => {
+                setPaymentUrl(response.data.redirect_url);  // URL untuk melanjutkan pembayaran
+            })
+            .catch(error => {
+                console.error("Error during Midtrans payment creation:", error);
+            });
+        }
+    }, [state]);
 
     return (
-        <div>
-            <h3>Detail Pembayaran</h3>
-            <p>Item: {harga.type}</p>
-            <p>Harga: {harga.price}</p>
-            
-            {/* Menampilkan tombol untuk melanjutkan pembayaran ke Midtrans */}
-            {paymentUrl ? (
-                <a href={paymentUrl} target="_blank" rel="noopener noreferrer">
-                    <Button variant="success">Lanjutkan Pembayaran</Button>
-                </a>
-            ) : (
-                <p>Memuat pembayaran...</p>
-            )}
+        <div className="payment-container">
+            <h2>Payment Page</h2>
+            <div className="payment-summary">
+                <p>Item: {state.harga.type}</p>
+                <p>Price: {state.harga.price}</p>
+            </div>
+
+            <div className="payment-gate">
+                {paymentUrl ? (
+                    <Button variant="success" onClick={() => window.location.href = paymentUrl}>
+                        Proceed to Payment
+                    </Button>
+                ) : (
+                    <p>Loading payment gateway...</p>
+                )}
+            </div>
         </div>
     );
 };

@@ -1,33 +1,41 @@
-// api/create-transaction.js
-const axios = require('axios');
+const midtransClient = require('midtrans-client');
 
 export default async function handler(req, res) {
-    const { price, type } = req.body;
+    if (req.method === 'POST') {
+        try {
+            const { price, type } = req.body;
 
-    const midtransUrl = 'https://app.sandbox.midtrans.com/snap/v1/transactions'; // Midtrans Sandbox URL
-    const serverKey = 'SB-Mid-server-wkTyIguA0OaTZ_DeSy13Iyrm'; // Ganti dengan server key Anda
+            const snap = new midtransClient.Snap({
+                isProduction: false, // Gunakan false untuk sandbox
+                serverKey: process.env.MIDTRANS_SERVER_KEY,  // Ambil dari environment variables
+                clientKey: process.env.MIDTRANS_CLIENT_KEY   // Ambil dari environment variables
+            });
 
-    try {
-        // Kirim request ke Midtrans API untuk membuat transaksi
-        const response = await axios.post(midtransUrl, {
-            transaction_details: {
-                order_id: `order-${Date.now()}`, // ID transaksi unik
-                gross_amount: parseInt(price.replace(/\D/g, '')), // Konversi harga menjadi angka
-            },
-            credit_card: {
-                secure: true,
-            },
-            // Anda bisa menambahkan detail lainnya sesuai dengan dokumentasi Midtrans
-        }, {
-            headers: {
-                'Authorization': `Basic ${Buffer.from(serverKey).toString('base64')}`,
-            },
-        });
+            const parameter = {
+                transaction_details: {
+                    order_id: 'order-id-' + new Date().getTime(),
+                    gross_amount: parseInt(price.replace('Rp', '').replace('.', '').trim())
+                },
+                credit_card: {
+                    secure: true
+                },
+                item_details: [
+                    {
+                        id: 'item-1',
+                        name: type,
+                        price: parseInt(price.replace('Rp', '').replace('.', '').trim()),
+                        quantity: 1
+                    }
+                ]
+            };
 
-        // Kirimkan URL pembayaran ke front-end
-        res.status(200).json({ paymentUrl: response.data.redirect_url });
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+            const transaction = await snap.createTransaction(parameter);
+            res.status(200).json({ redirect_url: transaction.redirect_url });
+        } catch (error) {
+            console.error('Error creating payment:', error);
+            res.status(500).send('Payment creation failed');
+        }
+    } else {
+        res.status(405).send('Method Not Allowed');
     }
 }

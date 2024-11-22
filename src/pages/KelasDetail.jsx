@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'; 
 import { semuaKelas } from '../data/index'; 
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 const KelasDetail = () => {
     const { kelasId } = useParams();
@@ -14,10 +14,10 @@ const KelasDetail = () => {
         return <div>Kelas tidak ditemukan</div>;
     }
 
-    // Fungsi untuk menangani klik tombol "Beli"
+    // Fungsi untuk menangani klik pada harga item
     const handleBuy = (harga) => {
         // Kirim data harga yang dipilih ke halaman pembayaran
-        navigate('/payment', { state: { harga } });  // Gantilah history.push dengan navigate
+        navigate('/payment', { state: { harga } });  // Mengirim data harga ke halaman payment
     };
 
     return (
@@ -29,7 +29,7 @@ const KelasDetail = () => {
             <h3 className='mb-4'>Harga:</h3>
             <div className="card-container">
                 {kelas.price.map((harga, index) => (
-                    <Card key={index} className="mb-3">
+                    <Card key={index} className="mb-3" onClick={() => handleBuy(harga)}>
                         <Card.Body className="d-flex align-items-center">
                             {/* Gambar disamping kiri */}
                             <img src={harga.image} alt="gambar" style={{ width: '35px', marginRight: '20px' }} />
@@ -39,8 +39,6 @@ const KelasDetail = () => {
                                 {/* Harga price */}
                                 <Card.Text>{harga.price}</Card.Text>
                             </div>
-                            {/* Tombol Beli */}
-                            <Button onClick={() => handleBuy(harga)} variant="primary">Beli</Button>
                         </Card.Body>
                     </Card>
                 ))}

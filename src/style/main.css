@@ -461,3 +461,25 @@
       font-size: 12px; /* Mengurangi ukuran font pada tombol saat layar ponsel */
     }
   }
+
+
+  /*PayemntPage*/
+  /* PaymentPage.css */
+.payment-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.payment-summary {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.payment-gate {
+    margin-top: 20px;
+}
+
+.payment-gate p {
+    font-size: 16px;
+    color: gray;
+}
