@@ -6,9 +6,9 @@ const ProductPage = () => {
   const navigate = useNavigate();
 
   // Fungsi untuk menangani klik beli
-  const handleBuy = (amount, type, image) => {
-    console.log('Mengirim data:', { amount, type, image }); // Cek data yang dikirim
-    navigate("/payment", { state: { amount, type, image } });  // Kirimkan data ke halaman pembayaran
+  const handleBuy = (price, type, image) => {
+    console.log('Mengirim data:', { price, type, image }); // Cek data yang dikirim
+    navigate("/payment", { state: { price, type, image } });  // Kirimkan data ke halaman pembayaran
   };
 
   return (
