@@ -1,71 +1,58 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const PaymentPage = () => {
-  const location = useLocation();
-  const { amount = 0, type = "Unknown" } = location.state || {};
+    const location = useLocation();
+    const { amount = 0, type = "Unknown" } = location.state || {};  // Mengambil data yang dikirimkan dari halaman sebelumnya
 
-  const handlePayment = async () => {
-    try {
-      if (amount <= 0) {
-        alert("Jumlah pembayaran tidak valid.");
-        return;
-      }
-  
-      console.log("Sending request to API with:", { amount, type });
-  
-      const response = await axios.post("/api/transaction", {
-        totalAmount: amount,
-        type: type,
-      });
-  
-      const snapToken = response.data.token;
-  
-      if (!snapToken) {
-        alert("Gagal mendapatkan token pembayaran.");
-        return;
-      }
-  
-      window.snap.pay(snapToken, {
-        onSuccess: (result) => alert("Transaksi berhasil! " + JSON.stringify(result)),
-        onPending: (result) => alert("Transaksi pending: " + JSON.stringify(result)),
-        onError: (result) => alert("Terjadi kesalahan: " + JSON.stringify(result)),
-        onClose: () => alert("Pembayaran dibatalkan"),
-      });
-    } catch (error) {
-      console.error("Error creating transaction:", error);
-      alert("Gagal membuat transaksi.");
-    }
-  };
-  
+    const [loading, setLoading] = useState(false);
+    const [price, setPrice] = useState(amount);  // Harga yang diterima
+    const [itemType, setItemType] = useState(type);  // Nama item yang diterima
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
-    script.setAttribute("data-client-key", "SB-Mid-client--jucMGGRSNhaA_C1"); // Ganti dengan client key Anda
-    script.async = true;
+    const handlePayment = async () => {
+        setLoading(true);
 
-    script.onload = () => console.log("Snap.js berhasil dimuat");
-    script.onerror = () => console.error("Snap.js gagal dimuat");
+        const response = await fetch('/api/create-transaction', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                price: `Rp ${price.toLocaleString()}`,  // Format harga dalam format Rp
+                type: itemType,
+            }),
+        });
 
-    document.body.appendChild(script);
+        const data = await response.json();
 
-    return () => {
-      document.body.removeChild(script);
+        if (data.redirect_url) {
+            // Redirect ke URL pembayaran Midtrans
+            window.location.href = data.redirect_url;
+        } else {
+            alert('Terjadi kesalahan saat memproses pembayaran');
+        }
+
+        setLoading(false);
     };
-  }, []);
 
-  return (
-    <div className="payment-container">
-      <h1>Pembayaran</h1>
-      <div>
-        <p><b>Tipe Produk:</b> {type}</p>
-        <p><b>Total Pembayaran:</b> Rp {amount.toLocaleString("id-ID")}</p>
-        <button onClick={handlePayment}>Bayar Sekarang</button>
-      </div>
-    </div>
-  );
+    return (
+        <div className="payment-container">
+            <div className="payment-header">
+                <h3>Halaman Pembayaran</h3>
+            </div>
+            <div className="payment-details">
+                <h4>Item: {itemType}</h4>
+                <p>Price: Rp {price.toLocaleString()}</p>
+            </div>
+            <button 
+                className="payment-button" 
+                onClick={handlePayment}
+                disabled={loading}
+            >
+                {loading ? 'Memuat Pembayaran...' : 'Bayar Sekarang'}
+            </button>
+        </div>
+    );
 };
 
 export default PaymentPage;
