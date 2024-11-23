@@ -18,7 +18,7 @@ const PaymentPage = () => {
     if (!harga || !kelas) return;
     setLoading(true);
     setError(null);
-
+  
     try {
       const response = await fetch("/api/create-transaction", {
         method: "POST",
@@ -31,19 +31,37 @@ const PaymentPage = () => {
           price: String(harga.price),
         }),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Terjadi kesalahan saat memproses pembayaran");
       }
-
+  
       const data = await response.json();
-
-      if (data.redirect_url) {
-        // Jika ada URL redirect, arahkan ke halaman pembayaran
-        window.location.href = data.redirect_url;
+  
+      if (data.token) {
+        // Buka Snap modal menggunakan token yang diterima dari backend
+        window.snap.pay(data.token, {
+          onSuccess: (result) => {
+            console.log("Success:", result);
+            alert("Pembayaran berhasil!");
+            // Navigasi ke halaman sukses
+            navigate("/success", { state: { result } });
+          },
+          onPending: (result) => {
+            console.log("Pending:", result);
+            alert("Pembayaran tertunda. Mohon selesaikan pembayaran Anda.");
+          },
+          onError: (error) => {
+            console.error("Error:", error);
+            alert("Pembayaran gagal. Silakan coba lagi.");
+          },
+          onClose: () => {
+            alert("Anda menutup halaman pembayaran.");
+          },
+        });
       } else {
-        throw new Error("URL pembayaran tidak ditemukan.");
+        throw new Error("Token pembayaran tidak ditemukan.");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -52,6 +70,7 @@ const PaymentPage = () => {
       setLoading(false);
     }
   };
+  
 
   // Jika data tidak ditemukan, tampilkan pesan error
   if (!harga || !kelas) {
