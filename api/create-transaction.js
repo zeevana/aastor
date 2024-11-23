@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
             // Konfigurasi Midtrans menggunakan kunci dari environment variables
             const snap = new midtransClient.Snap({
-                isProduction: true,  // Gunakan false untuk sandbox
+                isProduction: false,  // Gunakan false untuk sandbox
                 serverKey,  // Ambil kunci dari environment
                 clientKey  // Ambil kunci dari environment
             });
