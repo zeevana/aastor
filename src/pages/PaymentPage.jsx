@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -8,6 +9,9 @@ const PaymentPage = () => {
   // Ambil data yang dikirim melalui state
   const { state } = location;
   const { harga, kelas } = state || {};
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Jika tidak ada data, tampilkan pesan error
   if (!harga || !kelas) {
@@ -19,7 +23,46 @@ const PaymentPage = () => {
     );
   }
 
-  // Render halaman pembayaran
+  // Fungsi untuk memproses pembayaran
+  const handlePayment = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Request ke server backend untuk mendapatkan token Midtrans
+      const response = await axios.post("https://your-backend-server.com/api/payment", {
+        amount: harga.price,
+        product: `${kelas.title} - ${harga.type}`,
+      });
+
+      const { token } = response.data;
+
+      // Panggil Snap untuk memproses pembayaran
+      window.snap.pay(token, {
+        onSuccess: (result) => {
+          alert("Pembayaran berhasil!");
+          console.log(result);
+        },
+        onPending: (result) => {
+          alert("Pembayaran sedang diproses.");
+          console.log(result);
+        },
+        onError: (result) => {
+          alert("Pembayaran gagal.");
+          console.error(result);
+        },
+        onClose: () => {
+          alert("Pembayaran dibatalkan.");
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      setError("Gagal memproses pembayaran. Silakan coba lagi.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="payment-container">
       <div className="payment-card">
@@ -45,11 +88,14 @@ const PaymentPage = () => {
           </div>
         </div>
 
+        {error && <p className="error-message">{error}</p>}
+
         <button
           className="payment-button"
-          onClick={() => alert("Pembayaran diproses...")}
+          onClick={handlePayment}
+          disabled={isLoading}
         >
-          Bayar Sekarang
+          {isLoading ? "Memproses..." : "Bayar Sekarang"}
         </button>
       </div>
     </div>
