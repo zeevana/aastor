@@ -1,8 +1,5 @@
 import midtransClient from 'midtrans-client';
-import dotenv from 'dotenv';
 
-// Load environment variables
-dotenv.config();
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
@@ -17,8 +14,8 @@ export default async function handler(req, res) {
             // Konfigurasi Midtrans menggunakan kunci langsung (tanpa menggunakan .env)
             const snap = new midtransClient.Snap({
                 isProduction: true,  // Gunakan false untuk sandbox
-                serverKey: process.env.MIDTRANS_SERVER_KEY,  // Ambil kunci dari .env
-                clientKey: process.env.MIDTRANS_CLIENT_KEY   // Ganti dengan Client Key Anda
+                serverKey :"SB-Mid-server-wkTyIguA0OaTZ_DeSy13Iyrm",  // Ambil kunci dari .env
+                clientKey : "SB-Mid-client--jucMGGRSNhaA_C1"  // Ganti dengan Client Key Anda
             });
 
             // Proses harga (pastikan harga diproses dengan benar, menghapus simbol dan koma)
