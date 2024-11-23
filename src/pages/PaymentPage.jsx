@@ -9,8 +9,14 @@ const PaymentPage = () => {
 
   useEffect(() => {
     const savedData = sessionStorage.getItem("paymentData");
+
+    // Debugging: cek data yang diambil dari sessionStorage
+    console.log("Data yang diambil dari sessionStorage:", savedData);
+
     if (savedData) {
       setPaymentData(JSON.parse(savedData));
+    } else {
+      setError("Data pembayaran tidak ditemukan.");
     }
   }, []);
 
@@ -29,7 +35,7 @@ const PaymentPage = () => {
         body: JSON.stringify({
           productId: paymentData.productId,
           type: paymentData.type,
-          price: String (paymentData.price), // Kirim angka, bukan string
+          price: String(paymentData.price), // Pastikan harga dikirim sebagai string
         }),
       });
 
@@ -55,7 +61,7 @@ const PaymentPage = () => {
   if (!paymentData) {
     return (
       <div className="error-container">
-        <p className="error-message">Error: Data tidak ditemukan.</p>
+        <p className="error-message">{error || "Data tidak ditemukan."}</p>
         <button className="back-button" onClick={() => navigate("/product")}>
           Kembali ke Produk
         </button>

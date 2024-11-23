@@ -1,23 +1,29 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { semuaKelas } from "../data/index";
+import { semuaKelas } from "../data/index"; // Pastikan data ini valid
 
 const ProductPage = () => {
   const navigate = useNavigate();
 
   const handleBuy = (product, item) => {
-    // Simpan data pembayaran yang relevan ke sessionStorage
+    // Debugging: memastikan data produk dan item yang dipilih
+    console.log("Product yang dipilih:", product);
+    console.log("Item yang dipilih:", item);
+
+    // Simpan data produk dan item ke sessionStorage
     const paymentData = {
       productId: product.id,
       productTitle: product.title,
       productImage: product.image,
       type: item.type,
-      price: String(item.price) , // Pastikan ini adalah angka, jangan dikonversi ke string
-      itemImage: item.image, // Gambar item
+      price: item.price,  // Pastikan ini adalah nilai yang benar
+      itemImage: item.image // Gambar untuk Diamond/UC/Welkin
     };
 
-    console.log("Data pembayaran yang disimpan:", paymentData); // Debug log
+    // Simpan data ke sessionStorage
     sessionStorage.setItem("paymentData", JSON.stringify(paymentData));
+
+    // Arahkan ke PaymentPage
     navigate("/payment");
   };
 
