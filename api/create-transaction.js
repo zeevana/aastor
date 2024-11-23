@@ -1,5 +1,8 @@
 import midtransClient from 'midtrans-client';
+import dotenv from 'dotenv';
 
+// Pastikan untuk memuat file .env
+dotenv.config();
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
@@ -11,11 +14,20 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Price and type are required' });
             }
 
-            // Konfigurasi Midtrans menggunakan kunci langsung (tanpa menggunakan .env)
+            // Ambil kunci dari environment variables
+            const serverKey = process.env.MIDTRANS_SERVER_KEY;
+            const clientKey = process.env.MIDTRANS_CLIENT_KEY;
+
+            // Pastikan serverKey dan clientKey ada
+            if (!serverKey || !clientKey) {
+                return res.status(500).json({ error: 'Midtrans keys are not properly set up' });
+            }
+
+            // Konfigurasi Midtrans menggunakan kunci dari environment variables
             const snap = new midtransClient.Snap({
                 isProduction: false,  // Gunakan false untuk sandbox
-                serverKey : process.env.MIDTRANS_SERVER_KEY,  // Ambil kunci dari .env
-                clientKey : process.env.MIDTRANS_CLIENT_KEY  // Ganti dengan Client Key Anda
+                serverKey,  // Ambil kunci dari environment
+                clientKey  // Ambil kunci dari environment
             });
 
             // Proses harga (pastikan harga diproses dengan benar, menghapus simbol dan koma)
@@ -25,10 +37,9 @@ export default async function handler(req, res) {
             console.log('Clean Price:', cleanPrice);
 
             // Validasi jika harga bersih tidak valid
-            if (typeof price !== 'string' && typeof price !== 'number') {
-                return res.status(400).json({ error: 'Price must be a string or number' });
+            if (typeof cleanPrice !== 'number') {
+                return res.status(400).json({ error: 'Price must be a number' });
             }
-            
 
             // Siapkan parameter untuk transaksi
             const parameter = {
