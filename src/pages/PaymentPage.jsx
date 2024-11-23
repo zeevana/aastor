@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { semuaKelas } from "../data";  // Pastikan path dan nama file sudah benar
+
 
 const PaymentPage = () => {
   const [paymentData, setPaymentData] = useState(null);
