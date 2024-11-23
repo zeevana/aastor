@@ -29,7 +29,7 @@ const PaymentPage = () => {
         body: JSON.stringify({
           productId: paymentData.productId,
           type: paymentData.type,
-          price: paymentData.price, // Kirim angka, bukan string
+          price: String (paymentData.price), // Kirim angka, bukan string
         }),
       });
 

@@ -12,7 +12,7 @@ const ProductPage = () => {
       productTitle: product.title,
       productImage: product.image,
       type: item.type,
-      price: item.price, // Pastikan ini adalah angka, jangan dikonversi ke string
+      price: String(item.price) , // Pastikan ini adalah angka, jangan dikonversi ke string
       itemImage: item.image, // Gambar item
     };
 
