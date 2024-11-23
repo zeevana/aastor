@@ -68,11 +68,6 @@ export const semuaKelas = [
   {
     id: 1,
     image: KelasImage1,
-    star1: "fa-solid fa-star",
-    star2: "fa-solid fa-star",
-    star3: "fa-solid fa-star",
-    star4: "fa-solid fa-star",
-    star5: "fa-solid fa-star-half-stroke",
     title: "Ghensin Impact",
     price: [
       { type: "moon x1", price: 62000, image: Welkin },
@@ -498,3 +493,56 @@ export const ml = [
   { id: 6, item: "dm 716", price: "Rp 195.000" },
 ];
 
+export const tryPage = [
+  {
+    id: "genshin",
+    title: "Ghensin Impact",
+    image: "/images/genshin.jpg",
+    items: [
+      {
+        id: "moon-x1",
+        type: "moon x1",
+        price: 62000,
+        image: "/images/moon.png"
+      },
+      {
+        id: "moon-x2",
+        type: "moon x2", 
+        price: 122000,
+        image: "/images/moon.png"
+      },
+      {
+        id: "moon-x3",
+        type: "moon x3",
+        price: 182000,
+        image: "/images/moon.png"
+      }
+    ]
+  },
+  {
+    id: "freefire",
+    title: "Free Fire",
+    image: "/images/freefire.jpg",
+    items: [
+      {
+        id: "diamond-70",
+        type: "70",
+        price: 10000,
+        image: "/images/diamond.png"
+      },
+      {
+        id: "diamond-100",
+        type: "100",
+        price: 15000,
+        image: "/images/diamond.png"
+      },
+      {
+        id: "diamond-140",
+        type: "140",
+        price: 20000,
+        image: "/images/diamond.png"
+      }
+    ]
+  },
+ 
+];
