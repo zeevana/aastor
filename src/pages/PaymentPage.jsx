@@ -13,7 +13,6 @@ const PaymentPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fungsi untuk menangani pembayaran
   const handlePayment = async () => {
     if (!harga || !kelas) return;
     setLoading(true);
@@ -26,9 +25,8 @@ const PaymentPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          productId: kelas.id,
-          type: harga.type,
           price: String(harga.price),
+          type: harga.type,
         }),
       });
   
@@ -40,21 +38,20 @@ const PaymentPage = () => {
       const data = await response.json();
   
       if (data.token) {
-        // Buka Snap modal menggunakan token yang diterima dari backend
+        // Token berhasil diterima, buka Snap modal
         window.snap.pay(data.token, {
           onSuccess: (result) => {
             console.log("Success:", result);
             alert("Pembayaran berhasil!");
-            // Navigasi ke halaman sukses
             navigate("/success", { state: { result } });
           },
           onPending: (result) => {
             console.log("Pending:", result);
-            alert("Pembayaran tertunda. Mohon selesaikan pembayaran Anda.");
+            alert("Pembayaran tertunda.");
           },
           onError: (error) => {
             console.error("Error:", error);
-            alert("Pembayaran gagal. Silakan coba lagi.");
+            alert("Pembayaran gagal.");
           },
           onClose: () => {
             alert("Anda menutup halaman pembayaran.");
@@ -70,6 +67,7 @@ const PaymentPage = () => {
       setLoading(false);
     }
   };
+  
   
 
   // Jika data tidak ditemukan, tampilkan pesan error
