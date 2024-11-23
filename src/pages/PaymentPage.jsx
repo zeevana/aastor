@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ProductPaymentPage = () => {
+const PaymentPage = () => {
   const [paymentData, setPaymentData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -89,4 +89,4 @@ const ProductPaymentPage = () => {
   );
 };
 
-export default ProductPaymentPage;
+export default PaymentPage;
