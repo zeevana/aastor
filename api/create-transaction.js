@@ -13,8 +13,8 @@ export default async function handler(req, res) {
             // Konfigurasi Midtrans menggunakan kunci langsung (tanpa menggunakan .env)
             const snap = new midtransClient.Snap({
                 isProduction: true,  // Gunakan false untuk sandbox
-                serverKey: 'Mid-server-ywl9ZL55GMlWUuLdvMxpqzhS',  // Ganti dengan Server Key Anda
-                clientKey: 'Mid-client-cpIROicPqZQULN8d'   // Ganti dengan Client Key Anda
+                serverKey: process.env.MIDTRANS_SERVER_KEY,  // Ambil kunci dari .env
+                clientKey: process.env.MIDTRANS_CLIENT_KEY   // Ganti dengan Client Key Anda
             });
 
             // Proses harga (pastikan harga diproses dengan benar, menghapus simbol dan koma)
