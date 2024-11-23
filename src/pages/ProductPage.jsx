@@ -14,25 +14,23 @@ const ProductPage = () => {
         productImage: product.image,
         type: item.type,
         price: item.price,
-        itemImage: item.image,
-        timestamp: Date.now() // Menambahkan timestamp untuk tracking
+        timestamp: Date.now(),
       };
-
-      // Simpan data ke localStorage daripada sessionStorage untuk persistensi yang lebih baik
+  
       localStorage.setItem("paymentData", JSON.stringify(paymentData));
-      
-      // Trigger custom event untuk memberitahu PaymentPage
-      const paymentEvent = new CustomEvent('paymentDataUpdated', {
-        detail: paymentData
+  
+      const paymentEvent = new CustomEvent("paymentDataUpdated", {
+        detail: paymentData,
       });
       window.dispatchEvent(paymentEvent);
-
+  
       navigate("/payment");
     } catch (error) {
       console.error("Error saving payment data:", error);
       alert("Terjadi kesalahan saat memproses pembelian. Silakan coba lagi.");
     }
   };
+  
 
   return (
     <div className="product-container">

@@ -1,4 +1,3 @@
-// PaymentPage.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,21 +8,17 @@ const PaymentPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Function untuk mengambil data pembayaran
     const loadPaymentData = () => {
       try {
         const savedData = localStorage.getItem("paymentData");
         if (savedData) {
           const parsedData = JSON.parse(savedData);
-          // Verifikasi data valid dan belum kadaluarsa (15 menit)
           const isExpired = Date.now() - parsedData.timestamp > 15 * 60 * 1000;
-          
           if (isExpired) {
             setError("Sesi pembayaran telah berakhir. Silakan pilih produk kembali.");
             localStorage.removeItem("paymentData");
             return;
           }
-          
           setPaymentData(parsedData);
           setError(null);
         } else {
@@ -35,26 +30,22 @@ const PaymentPage = () => {
       }
     };
 
-    // Load initial data
     loadPaymentData();
 
-    // Listen untuk updates
     const handlePaymentUpdate = (event) => {
       setPaymentData(event.detail);
       setError(null);
     };
 
-    window.addEventListener('paymentDataUpdated', handlePaymentUpdate);
+    window.addEventListener("paymentDataUpdated", handlePaymentUpdate);
 
-    // Cleanup listener
     return () => {
-      window.removeEventListener('paymentDataUpdated', handlePaymentUpdate);
+      window.removeEventListener("paymentDataUpdated", handlePaymentUpdate);
     };
   }, []);
 
   const handlePayment = async () => {
     if (!paymentData) return;
-
     setLoading(true);
     setError(null);
 
@@ -79,11 +70,10 @@ const PaymentPage = () => {
       const data = await response.json();
 
       if (data.redirect_url) {
-        // Clear payment data before redirecting
         localStorage.removeItem("paymentData");
         window.location.href = data.redirect_url;
       } else {
-        throw new Error("URL pembayaran tidak ditemukan");
+        throw new Error("URL pembayaran tidak ditemukan.");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -108,7 +98,6 @@ const PaymentPage = () => {
     <div className="payment-container">
       <div className="payment-card">
         <h2 className="payment-title">Detail Pembayaran</h2>
-
         <div className="payment-info">
           <div className="product-preview">
             <img
@@ -118,20 +107,10 @@ const PaymentPage = () => {
             />
             <h3 className="product-name">{paymentData.productTitle}</h3>
           </div>
-
           <div className="payment-details">
             <div className="detail-item">
               <span className="detail-label">Item:</span>
-              <div className="detail-value-container">
-                {paymentData.itemImage && (
-                  <img
-                    src={paymentData.itemImage}
-                    alt={paymentData.type}
-                    className="currency-icon-small"
-                  />
-                )}
-                <span className="detail-value">{paymentData.type}</span>
-              </div>
+              <span className="detail-value">{paymentData.type}</span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Harga:</span>
@@ -141,9 +120,7 @@ const PaymentPage = () => {
             </div>
           </div>
         </div>
-
         {error && <div className="error-message">{error}</div>}
-
         <button
           className="payment-button"
           onClick={handlePayment}
