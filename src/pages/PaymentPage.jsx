@@ -38,31 +38,31 @@ const PaymentPage = () => {
       }
   
       const data = await response.json();
-  
+
       if (data.token) {
-        // Buka Snap modal menggunakan token yang diterima dari backend
+        // Pastikan token valid dan terformat dengan benar
         window.snap.pay(data.token, {
           onSuccess: (result) => {
             console.log("Success:", result);
             alert("Pembayaran berhasil!");
-            // Navigasi ke halaman sukses
-            navigate("/success", { state: { result } });
           },
           onPending: (result) => {
             console.log("Pending:", result);
-            alert("Pembayaran tertunda. Mohon selesaikan pembayaran Anda.");
+            alert("Pembayaran tertunda.");
           },
           onError: (error) => {
             console.error("Error:", error);
-            alert("Pembayaran gagal. Silakan coba lagi.");
+            alert("Pembayaran gagal.");
           },
           onClose: () => {
             alert("Anda menutup halaman pembayaran.");
           },
         });
       } else {
-        throw new Error("Token pembayaran tidak ditemukan.");
+        console.error("Token pembayaran tidak ditemukan.");
+        alert("Gagal mendapatkan token pembayaran.");
       }
+      
     } catch (error) {
       console.error("Error:", error);
       setError(error.message);
