@@ -2,7 +2,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { semuaKelas } from "../data/index";
-import "./styles.css";
 
 const ProductPage = () => {
   const navigate = useNavigate();

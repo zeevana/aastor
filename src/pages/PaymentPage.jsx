@@ -1,7 +1,7 @@
 // PaymentPage.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles.css";
+
 
 const PaymentPage = () => {
   const navigate = useNavigate();
