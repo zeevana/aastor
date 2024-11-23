@@ -7,16 +7,16 @@ const KelasDetail = () => {
   const navigate = useNavigate();
 
   // Cari kelas berdasarkan ID
-  const kelas = semuaKelas.find((kelas) => kelas.id === kelasId);
+  const kelas = semuaKelas.find((kelas) => kelas.id === parseInt(kelasId));
 
-  // Periksa apakah kelas ditemukan
+  // Jika kelas tidak ditemukan
   if (!kelas) {
     return <div>Kelas tidak ditemukan</div>;
   }
 
-  // Fungsi untuk menangani klik pada item harga
+  // Fungsi untuk menangani klik pada harga item
   const handleBuy = (harga) => {
-    navigate("/payment", { state: { harga, kelas } }); // Mengirim data harga & kelas ke PaymentPage
+    navigate("/payment", { state: { harga, kelas } });
   };
 
   return (
@@ -28,16 +28,23 @@ const KelasDetail = () => {
       <h3 className="mb-4">Harga:</h3>
       <div className="card-container">
         {kelas.price.map((harga, index) => (
-          <Card key={index} className="mb-3" onClick={() => handleBuy(harga)}>
+          <Card
+            key={index}
+            className="mb-3"
+            onClick={() => handleBuy(harga)}
+            style={{ cursor: "pointer" }}
+          >
             <Card.Body className="d-flex align-items-center">
-              {/* Gambar di samping kiri */}
+              {/* Gambar di sebelah kiri */}
               <img
                 src={harga.image}
-                alt="gambar"
+                alt={harga.type}
                 style={{ width: "35px", marginRight: "20px" }}
               />
               <div>
+                {/* Harga type */}
                 <Card.Title>{harga.type}</Card.Title>
+                {/* Harga price */}
                 <Card.Text>Rp {harga.price.toLocaleString("id-ID")}</Card.Text>
               </div>
             </Card.Body>

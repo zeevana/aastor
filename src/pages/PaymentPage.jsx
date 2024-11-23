@@ -9,7 +9,7 @@ const PaymentPage = () => {
   const { state } = location;
   const { harga, kelas } = state || {};
 
-  // Jika tidak ada data (misalnya user langsung akses URL), tampilkan pesan error
+  // Jika tidak ada data, tampilkan pesan error
   if (!harga || !kelas) {
     return (
       <div className="error-container">
