@@ -1,64 +1,33 @@
 // PaymentPage.jsx
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { tryPage } from "../data/index";
+import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const { productId, itemId } = useParams();
   const [paymentData, setPaymentData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Function untuk mengambil data pembayaran
     const loadPaymentData = () => {
       try {
-        // Ambil data dari localStorage
-        const savedData = localStorage.getItem("currentPayment");
-        
+        const savedData = localStorage.getItem("paymentData");
         if (savedData) {
           const parsedData = JSON.parse(savedData);
+          // Verifikasi data valid dan belum kadaluarsa (15 menit)
+          const isExpired = Date.now() - parsedData.timestamp > 15 * 60 * 1000;
           
-          // Verifikasi data masih valid
-          if (parsedData.productId === productId && parsedData.itemId === itemId) {
-            // Verifikasi timeout (15 menit)
-            const isExpired = Date.now() - parsedData.timestamp > 15 * 60 * 1000;
-            
-            if (isExpired) {
-              setError("Sesi pembayaran telah berakhir. Silakan pilih produk kembali.");
-              localStorage.removeItem("currentPayment");
-              return;
-            }
-            
-            setPaymentData(parsedData);
-            setError(null);
-          } else {
-            // Jika ID tidak cocok, mungkin user mencoba mengakses URL langsung
-            setError("Data pembayaran tidak valid. Silakan pilih produk dari halaman produk.");
+          if (isExpired) {
+            setError("Sesi pembayaran telah berakhir. Silakan pilih produk kembali.");
+            localStorage.removeItem("paymentData");
+            return;
           }
+          
+          setPaymentData(parsedData);
+          setError(null);
         } else {
-          // Coba ambil data dari semuaKelas jika URL diakses langsung
-          const product = tryPage.find(p => p.id === productId);
-          const item = product?.items.find(i => i.id === itemId);
-          
-          if (product && item) {
-            const newPaymentData = {
-              productId: product.id,
-              productTitle: product.title,
-              productImage: product.image,
-              itemId: item.id,
-              type: item.type,
-              price: item.price,
-              itemImage: item.image,
-              timestamp: Date.now()
-            };
-            
-            localStorage.setItem("currentPayment", JSON.stringify(newPaymentData));
-            setPaymentData(newPaymentData);
-            setError(null);
-          } else {
-            setError("Data pembayaran tidak ditemukan. Silakan pilih produk dari halaman produk.");
-          }
+          setError("Data pembayaran tidak ditemukan.");
         }
       } catch (error) {
         console.error("Error loading payment data:", error);
@@ -66,8 +35,22 @@ const PaymentPage = () => {
       }
     };
 
+    // Load initial data
     loadPaymentData();
-  }, [productId, itemId]);
+
+    // Listen untuk updates
+    const handlePaymentUpdate = (event) => {
+      setPaymentData(event.detail);
+      setError(null);
+    };
+
+    window.addEventListener('paymentDataUpdated', handlePaymentUpdate);
+
+    // Cleanup listener
+    return () => {
+      window.removeEventListener('paymentDataUpdated', handlePaymentUpdate);
+    };
+  }, []);
 
   const handlePayment = async () => {
     if (!paymentData) return;
@@ -83,7 +66,6 @@ const PaymentPage = () => {
         },
         body: JSON.stringify({
           productId: paymentData.productId,
-          itemId: paymentData.itemId,
           type: paymentData.type,
           price: String(paymentData.price),
         }),
@@ -97,8 +79,8 @@ const PaymentPage = () => {
       const data = await response.json();
 
       if (data.redirect_url) {
-        // Hapus data payment sebelum redirect
-        localStorage.removeItem("currentPayment");
+        // Clear payment data before redirecting
+        localStorage.removeItem("paymentData");
         window.location.href = data.redirect_url;
       } else {
         throw new Error("URL pembayaran tidak ditemukan");

@@ -1,39 +1,42 @@
 // ProductPage.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { tryPage } from "../data/index";
+import { semuaKelas } from "../data/index";
 
 const ProductPage = () => {
   const navigate = useNavigate();
 
-  const handleBuy = async (product, item) => {
+  const handleBuy = (product, item) => {
     try {
-      // Persiapkan data pembayaran
       const paymentData = {
         productId: product.id,
         productTitle: product.title,
         productImage: product.image,
-        itemId: item.id,
         type: item.type,
         price: item.price,
         itemImage: item.image,
-        timestamp: Date.now()
+        timestamp: Date.now() // Menambahkan timestamp untuk tracking
       };
 
-      // Simpan ke localStorage
-      localStorage.setItem("currentPayment", JSON.stringify(paymentData));
+      // Simpan data ke localStorage daripada sessionStorage untuk persistensi yang lebih baik
+      localStorage.setItem("paymentData", JSON.stringify(paymentData));
       
-      // Navigasi ke halaman pembayaran dengan ID item
-      navigate(`/payment/${product.id}/${item.id}`);
+      // Trigger custom event untuk memberitahu PaymentPage
+      const paymentEvent = new CustomEvent('paymentDataUpdated', {
+        detail: paymentData
+      });
+      window.dispatchEvent(paymentEvent);
+
+      navigate("/payment");
     } catch (error) {
-      console.error("Error preparing payment:", error);
+      console.error("Error saving payment data:", error);
       alert("Terjadi kesalahan saat memproses pembelian. Silakan coba lagi.");
     }
   };
 
   return (
     <div className="product-container">
-      {tryPage.map((product) => (
+      {semuaKelas.map((product) => (
         <div key={product.id} className="product-card">
           <img
             src={product.image}
@@ -43,8 +46,8 @@ const ProductPage = () => {
           <h3 className="product-title">{product.title}</h3>
 
           <div className="price-container">
-            {product.items.map((item) => (
-              <div key={item.id} className="price-item">
+            {product.price.map((item, index) => (
+              <div key={index} className="price-item">
                 <div className="price-info">
                   {item.image && (
                     <img
