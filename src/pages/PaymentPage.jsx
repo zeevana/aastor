@@ -23,33 +23,34 @@ const PaymentPage = () => {
 
   const handlePayment = async () => {
     setLoading(true);
-
     try {
-      const response = await fetch("/api/create-transaction", {
-        method: "POST",
+      const response = await fetch('/api/create-transaction', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          price: price,
+          price: price,  // Harga yang dikirimkan
           type: type,
         }),
       });
-
+  
       const data = await response.json();
-
+      console.log('Response Data:', data);  // Tambahkan log ini untuk melihat apa yang dikembalikan server
+      
       if (data.redirect_url) {
         window.location.href = data.redirect_url;
       } else {
-        alert("Terjadi kesalahan saat memproses pembayaran");
+        alert('Terjadi kesalahan saat memproses pembayaran: ' + data.error);
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Gagal memproses pembayaran. Silakan coba lagi.");
+      console.error('Error:', error);  // Log error dari fetch
+      alert('Gagal memproses pembayaran. Silakan coba lagi.');
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="payment-container">
