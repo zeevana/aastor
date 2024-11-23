@@ -1,7 +1,5 @@
-// PaymentPage.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 const PaymentPage = () => {
   const navigate = useNavigate();
@@ -10,85 +8,84 @@ const PaymentPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const savedData = sessionStorage.getItem('paymentData');
+    const savedData = sessionStorage.getItem("paymentData");
     if (savedData) {
       setPaymentData(JSON.parse(savedData));
     }
   }, []);
 
-  if (!paymentData) {
-    return (
-      <div className="error-container">
-        <p className="error-message">Error: Data tidak ditemukan.</p>
-        <button 
-          className="back-button"
-          onClick={() => navigate("/product")}
-        >
-          Kembali ke Produk
-        </button>
-      </div>
-    );
-  }
-
   const handlePayment = async () => {
+    if (!paymentData) return;
+
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/create-transaction', {
-        method: 'POST',
+      const response = await fetch("/api/create-transaction", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           productId: paymentData.productId,
           type: paymentData.type,
-          price: String (paymentData.price) 
+          price: paymentData.price, // Kirim angka, bukan string
         }),
       });
-  
+
       const data = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(data.error || 'Terjadi kesalahan saat memproses pembayaran');
+        throw new Error(data.error || "Terjadi kesalahan saat memproses pembayaran");
       }
-      
+
       if (data.redirect_url) {
         window.location.href = data.redirect_url;
       } else {
-        throw new Error('URL pembayaran tidak ditemukan');
+        throw new Error("URL pembayaran tidak ditemukan");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       setError(error.message);
     } finally {
       setLoading(false);
     }
   };
 
+  if (!paymentData) {
+    return (
+      <div className="error-container">
+        <p className="error-message">Error: Data tidak ditemukan.</p>
+        <button className="back-button" onClick={() => navigate("/product")}>
+          Kembali ke Produk
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="payment-container">
       <div className="payment-card">
         <h2 className="payment-title">Detail Pembayaran</h2>
-        
+
         <div className="payment-info">
           <div className="product-preview">
-            <img 
-              src={paymentData.productImage} 
-              alt={paymentData.productTitle} 
+            <img
+              src={paymentData.productImage}
+              alt={paymentData.productTitle}
               className="payment-image"
             />
             <h3 className="product-name">{paymentData.productTitle}</h3>
           </div>
-          
+
           <div className="payment-details">
             <div className="detail-item">
               <span className="detail-label">Item:</span>
               <div className="detail-value-container">
                 {paymentData.itemImage && (
-                  <img 
-                    src={paymentData.itemImage} 
-                    alt={paymentData.type} 
+                  <img
+                    src={paymentData.itemImage}
+                    alt={paymentData.type}
                     className="currency-icon-small"
                   />
                 )}
@@ -98,21 +95,17 @@ const PaymentPage = () => {
             <div className="detail-item">
               <span className="detail-label">Harga:</span>
               <span className="detail-value price">
-                Rp {paymentData.price.toLocaleString()}
+                Rp {paymentData.price.toLocaleString("id-ID")}
               </span>
             </div>
           </div>
         </div>
 
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
 
-        <button 
+        <button
           className="payment-button"
-          onClick={handlePayment} 
+          onClick={handlePayment}
           disabled={loading}
         >
           {loading ? "Memproses Pembayaran..." : "Bayar Sekarang"}
