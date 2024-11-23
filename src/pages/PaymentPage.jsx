@@ -10,7 +10,7 @@ const PaymentPage = () => {
   const { harga, kelas } = state || {};
 
   // State untuk loading, error, dan pembayaran
-  
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const [isProcessing, setIsProcessing] = useState(false);
