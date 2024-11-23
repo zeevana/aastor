@@ -1,4 +1,3 @@
-// ProductPage.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { semuaKelas } from "../data/index";
@@ -14,23 +13,20 @@ const ProductPage = () => {
         productImage: product.image,
         type: item.type,
         price: item.price,
-        timestamp: Date.now(),
+        itemImage: item.image,
+        timestamp: Date.now(), // Untuk validasi waktu jika diperlukan
       };
-  
+
+      // Simpan ke localStorage sebagai cadangan
       localStorage.setItem("paymentData", JSON.stringify(paymentData));
-  
-      const paymentEvent = new CustomEvent("paymentDataUpdated", {
-        detail: paymentData,
-      });
-      window.dispatchEvent(paymentEvent);
-  
-      navigate("/payment");
+
+      // Navigasi ke halaman pembayaran dengan state
+      navigate("/payment", { state: paymentData });
     } catch (error) {
       console.error("Error saving payment data:", error);
       alert("Terjadi kesalahan saat memproses pembelian. Silakan coba lagi.");
     }
   };
-  
 
   return (
     <div className="product-container">
@@ -42,7 +38,6 @@ const ProductPage = () => {
             className="product-image"
           />
           <h3 className="product-title">{product.title}</h3>
-
           <div className="price-container">
             {product.price.map((item, index) => (
               <div key={index} className="price-item">

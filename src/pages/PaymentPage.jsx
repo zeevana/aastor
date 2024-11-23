@@ -1,48 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [paymentData, setPaymentData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadPaymentData = () => {
-      try {
-        const savedData = localStorage.getItem("paymentData");
-        if (savedData) {
-          const parsedData = JSON.parse(savedData);
-          const isExpired = Date.now() - parsedData.timestamp > 15 * 60 * 1000;
-          if (isExpired) {
-            setError("Sesi pembayaran telah berakhir. Silakan pilih produk kembali.");
-            localStorage.removeItem("paymentData");
-            return;
-          }
-          setPaymentData(parsedData);
-          setError(null);
-        } else {
-          setError("Data pembayaran tidak ditemukan.");
+      // Coba ambil data dari state di navigasi
+      if (location.state) {
+        setPaymentData(location.state);
+        return;
+      }
+
+      // Jika state tidak ada, fallback ke localStorage
+      const savedData = localStorage.getItem("paymentData");
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        const isExpired = Date.now() - parsedData.timestamp > 15 * 60 * 1000;
+        if (isExpired) {
+          setError("Sesi pembayaran telah berakhir. Silakan pilih produk kembali.");
+          localStorage.removeItem("paymentData");
+          return;
         }
-      } catch (error) {
-        console.error("Error loading payment data:", error);
-        setError("Terjadi kesalahan saat memuat data pembayaran.");
+        setPaymentData(parsedData);
+      } else {
+        setError("Data pembayaran tidak ditemukan.");
       }
     };
 
     loadPaymentData();
-
-    const handlePaymentUpdate = (event) => {
-      setPaymentData(event.detail);
-      setError(null);
-    };
-
-    window.addEventListener("paymentDataUpdated", handlePaymentUpdate);
-
-    return () => {
-      window.removeEventListener("paymentDataUpdated", handlePaymentUpdate);
-    };
-  }, []);
+  }, [location.state]);
 
   const handlePayment = async () => {
     if (!paymentData) return;
