@@ -20,6 +20,9 @@ export default async function handler(req, res) {
             // Proses harga (pastikan harga diproses dengan benar, menghapus simbol dan koma)
             const cleanPrice = parseInt(price.replace('Rp', '').replace('.', '').replace(',', '').trim());
 
+            // Debug log untuk harga bersih
+            console.log('Clean Price:', cleanPrice);
+
             // Validasi jika harga bersih tidak valid
             if (isNaN(cleanPrice) || cleanPrice <= 0) {
                 return res.status(400).json({ error: 'Invalid price format' });
@@ -44,6 +47,9 @@ export default async function handler(req, res) {
                 ]
             };
 
+            // Debug log untuk parameter transaksi
+            console.log('Transaction Parameter:', parameter);
+
             // Buat transaksi di Midtrans
             const transaction = await snap.createTransaction(parameter);
 
@@ -52,7 +58,7 @@ export default async function handler(req, res) {
         } catch (error) {
             // Tangani kesalahan dengan log yang lebih informatif
             console.error('Error creating payment:', error);
-            res.status(500).json({ error: 'Failed to create payment, please try again later.' });
+            res.status(500).json({ error: error.message || 'Failed to create payment, please try again later.' });
         }
     } else {
         // Jika bukan POST request, kirimkan status 405 Method Not Allowed
