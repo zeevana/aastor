@@ -62,7 +62,7 @@ const PaymentPage = () => {
     return (
       <div className="error-container">
         <p className="error-message">{error || "Data tidak ditemukan."}</p>
-        <button className="back-button" onClick={() => navigate("/kelas")}>
+        <button className="back-button" onClick={() => navigate("/product")}>
           Kembali ke Produk
         </button>
       </div>
