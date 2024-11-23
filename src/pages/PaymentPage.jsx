@@ -1,19 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Ambil data yang dikirim melalui state
+  // Data yang dikirim melalui navigasi
   const { state } = location;
   const { harga, kelas } = state || {};
 
-  const [isLoading, setIsLoading] = useState(false);
+  // State untuk loading, error, dan pembayaran
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Jika tidak ada data, tampilkan pesan error
+  // Fungsi untuk menangani pembayaran
+  const handlePayment = async () => {
+    if (!harga || !kelas) return;
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/create-transaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          productId: kelas.id,
+          type: harga.type,
+          price: String(harga.price),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Terjadi kesalahan saat memproses pembayaran");
+      }
+
+      const data = await response.json();
+
+      if (data.redirect_url) {
+        // Jika ada URL redirect, arahkan ke halaman pembayaran
+        window.location.href = data.redirect_url;
+      } else {
+        throw new Error("URL pembayaran tidak ditemukan.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Jika data tidak ditemukan, tampilkan pesan error
   if (!harga || !kelas) {
     return (
       <div className="error-container">
@@ -22,46 +62,6 @@ const PaymentPage = () => {
       </div>
     );
   }
-
-  // Fungsi untuk memproses pembayaran
-  const handlePayment = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Request ke server backend untuk mendapatkan token Midtrans
-      const response = await axios.post("/api/create-transaction", {
-        amount: harga.price,
-        product: `${kelas.title} - ${harga.type}`,
-      });
-
-      const { token } = response.data;
-
-      // Panggil Snap untuk memproses pembayaran
-      window.snap.pay(token, {
-        onSuccess: (result) => {
-          alert("Pembayaran berhasil!");
-          console.log(result);
-        },
-        onPending: (result) => {
-          alert("Pembayaran sedang diproses.");
-          console.log(result);
-        },
-        onError: (result) => {
-          alert("Pembayaran gagal.");
-          console.error(result);
-        },
-        onClose: () => {
-          alert("Pembayaran dibatalkan.");
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      setError("Gagal memproses pembayaran. Silakan coba lagi.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="payment-container">
@@ -88,14 +88,13 @@ const PaymentPage = () => {
           </div>
         </div>
 
-        {error && <p className="error-message">{error}</p>}
-
+        {error && <div className="error-message">{error}</div>}
         <button
           className="payment-button"
           onClick={handlePayment}
-          disabled={isLoading}
+          disabled={loading}
         >
-          {isLoading ? "Memproses..." : "Bayar Sekarang"}
+          {loading ? "Memproses Pembayaran..." : "Bayar Sekarang"}
         </button>
       </div>
     </div>
