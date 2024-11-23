@@ -48,14 +48,15 @@ export default async function handler(req, res) {
                 ]
             };
 
-            // Debug log untuk parameter transaksi
-            console.log('Transaction Parameter:', parameter);
-
             // Buat transaksi di Midtrans
             const transaction = await snap.createTransaction(parameter);
 
-            // Kirimkan URL untuk melanjutkan ke halaman pembayaran Midtrans
+            // Debug log untuk token transaksi
+            console.log('Transaction Token:', transaction.token);
+
+            // Kirimkan token untuk diproses di frontend
             res.status(200).json({ token: transaction.token });
+
         } catch (error) {
             // Tangani kesalahan dengan log yang lebih informatif
             console.error('Error creating payment:', error);
