@@ -13,10 +13,11 @@ const PaymentPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   const handlePayment = async () => {
-    if (!harga || !kelas) return;
-    setLoading(true);
-    setError(null);
+    if (isPopupOpen) return; // Prevent multiple clicks while the popup is open
+    setIsPopupOpen(true);
   
     try {
       const response = await fetch("/api/create-transaction", {
@@ -38,23 +39,25 @@ const PaymentPage = () => {
       const data = await response.json();
   
       if (data.token) {
-        // Token berhasil diterima, buka Snap modal
         window.snap.pay(data.token, {
           onSuccess: (result) => {
             console.log("Success:", result);
             alert("Pembayaran berhasil!");
-            navigate("/success", { state: { result } });
+            setIsPopupOpen(false);
           },
           onPending: (result) => {
             console.log("Pending:", result);
             alert("Pembayaran tertunda.");
+            setIsPopupOpen(false);
           },
           onError: (error) => {
             console.error("Error:", error);
             alert("Pembayaran gagal.");
+            setIsPopupOpen(false);
           },
           onClose: () => {
             alert("Anda menutup halaman pembayaran.");
+            setIsPopupOpen(false);
           },
         });
       } else {
@@ -62,11 +65,11 @@ const PaymentPage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
+      alert(error.message || "Gagal memproses pembayaran");
+      setIsPopupOpen(false);
     }
   };
+  
   
   
   
