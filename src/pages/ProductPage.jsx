@@ -1,12 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { semuaKelas } from "../data/index"; // Pastikan data ini valid
+import { semuaKelas } from "../data/index";
 
 const ProductPage = () => {
   const navigate = useNavigate();
 
   const handleBuy = (product, item) => {
-    // Debugging: memastikan data produk dan item yang dipilih
+    // Debugging: pastikan data produk dan item yang dipilih
     console.log("Product yang dipilih:", product);
     console.log("Item yang dipilih:", item);
 

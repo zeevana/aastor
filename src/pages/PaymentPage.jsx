@@ -8,9 +8,10 @@ const PaymentPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Coba ambil data dari sessionStorage setiap kali PaymentPage dimuat
     const savedData = sessionStorage.getItem("paymentData");
 
-    // Debugging: cek data yang diambil dari sessionStorage
+    // Debugging: memastikan data yang diambil dari sessionStorage
     console.log("Data yang diambil dari sessionStorage:", savedData);
 
     if (savedData) {
@@ -18,7 +19,7 @@ const PaymentPage = () => {
     } else {
       setError("Data pembayaran tidak ditemukan.");
     }
-  }, []);
+  }, []);  // Menambahkan dependensi kosong agar useEffect hanya dijalankan sekali saat mount
 
   const handlePayment = async () => {
     if (!paymentData) return;
