@@ -10,13 +10,14 @@ const PaymentPage = () => {
   const { harga, kelas } = state || {};
 
   // State untuk loading, error, dan pembayaran
-  const [loading, setLoading] = useState(false);
+  
   const [error, setError] = useState(null);
 
-  // Fungsi untuk menangani pembayaran
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const handlePayment = async () => {
-    if (!harga || !kelas) return;
-    setLoading(true);
+    if (isProcessing || !harga || !kelas) return; // Cegah panggilan ganda
+    setIsProcessing(true); // Tandai sebagai sedang diproses
     setError(null);
   
     try {
@@ -38,9 +39,9 @@ const PaymentPage = () => {
       }
   
       const data = await response.json();
-
+  
       if (data.token) {
-        // Pastikan token valid dan terformat dengan benar
+        // Pastikan token valid
         window.snap.pay(data.token, {
           onSuccess: (result) => {
             console.log("Success:", result);
@@ -62,12 +63,11 @@ const PaymentPage = () => {
         console.error("Token pembayaran tidak ditemukan.");
         alert("Gagal mendapatkan token pembayaran.");
       }
-      
     } catch (error) {
       console.error("Error:", error);
       setError(error.message);
     } finally {
-      setLoading(false);
+      setIsProcessing(false); // Reset flag setelah transaksi selesai
     }
   };
   
