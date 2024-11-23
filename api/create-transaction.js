@@ -55,7 +55,7 @@ export default async function handler(req, res) {
             const transaction = await snap.createTransaction(parameter);
 
             // Kirimkan URL untuk melanjutkan ke halaman pembayaran Midtrans
-            res.status(200).json({ redirect_url: transaction.redirect_url });
+            res.status(200).json({ token: transaction.token });
         } catch (error) {
             // Tangani kesalahan dengan log yang lebih informatif
             console.error('Error creating payment:', error);
