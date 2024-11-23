@@ -30,7 +30,7 @@ const PaymentPage = () => {
 
     try {
       // Request ke server backend untuk mendapatkan token Midtrans
-      const response = await axios.post("/api/transaction", {
+      const response = await axios.post("/api/create-transaction", {
         amount: harga.price,
         product: `${kelas.title} - ${harga.type}`,
       });
