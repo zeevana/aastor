@@ -12,9 +12,9 @@ export default async function handler(req, res) {
 
             // Konfigurasi Midtrans menggunakan kunci langsung (tanpa menggunakan .env)
             const snap = new midtransClient.Snap({
-                isProduction: false,  // Gunakan false untuk sandbox
-                serverKey: 'SB-Mid-server-wkTyIguA0OaTZ_DeSy13Iyrm',  // Ganti dengan Server Key Anda
-                clientKey: 'SB-Mid-client--jucMGGRSNhaA_C1'   // Ganti dengan Client Key Anda
+                isProduction: true,  // Gunakan false untuk sandbox
+                serverKey: 'Mid-server-ywl9ZL55GMlWUuLdvMxpqzhS',  // Ganti dengan Server Key Anda
+                clientKey: 'Mid-client-cpIROicPqZQULN8d'   // Ganti dengan Client Key Anda
             });
 
             // Proses harga (pastikan harga diproses dengan benar, menghapus simbol dan koma)
