@@ -7,9 +7,9 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const [paymentData, setPaymentData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Retrieve data from sessionStorage
     const savedData = sessionStorage.getItem('paymentData');
     if (savedData) {
       setPaymentData(JSON.parse(savedData));
@@ -32,6 +32,8 @@ const PaymentPage = () => {
 
   const handlePayment = async () => {
     setLoading(true);
+    setError(null);
+
     try {
       const response = await fetch('/api/create-transaction', {
         method: 'POST',
@@ -39,21 +41,26 @@ const PaymentPage = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          price: paymentData.price,
+          productId: paymentData.productId,
           type: paymentData.type,
+          price: paymentData.price
         }),
       });
   
       const data = await response.json();
       
+      if (!response.ok) {
+        throw new Error(data.error || 'Terjadi kesalahan saat memproses pembayaran');
+      }
+      
       if (data.redirect_url) {
         window.location.href = data.redirect_url;
       } else {
-        alert('Terjadi kesalahan saat memproses pembayaran: ' + data.error);
+        throw new Error('URL pembayaran tidak ditemukan');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Gagal memproses pembayaran. Silakan coba lagi.');
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -67,26 +74,41 @@ const PaymentPage = () => {
         <div className="payment-info">
           <div className="product-preview">
             <img 
-              src={paymentData.image} 
-              alt={paymentData.type} 
+              src={paymentData.productImage} 
+              alt={paymentData.productTitle} 
               className="payment-image"
             />
-            <h3 className="product-name">{paymentData.title}</h3>
+            <h3 className="product-name">{paymentData.productTitle}</h3>
           </div>
           
           <div className="payment-details">
             <div className="detail-item">
-              <span className="detail-label">Tipe:</span>
-              <span className="detail-value">{paymentData.type}</span>
+              <span className="detail-label">Item:</span>
+              <div className="detail-value-container">
+                {paymentData.itemImage && (
+                  <img 
+                    src={paymentData.itemImage} 
+                    alt={paymentData.type} 
+                    className="currency-icon-small"
+                  />
+                )}
+                <span className="detail-value">{paymentData.type}</span>
+              </div>
             </div>
             <div className="detail-item">
               <span className="detail-label">Harga:</span>
-              <span className="detail-value">
+              <span className="detail-value price">
                 Rp {paymentData.price.toLocaleString()}
               </span>
             </div>
           </div>
         </div>
+
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
 
         <button 
           className="payment-button"
