@@ -43,7 +43,7 @@ const PaymentPage = () => {
         body: JSON.stringify({
           productId: paymentData.productId,
           type: paymentData.type,
-          price: paymentData.price
+          price: String (paymentData.price) 
         }),
       });
   

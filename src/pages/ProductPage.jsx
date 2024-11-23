@@ -14,7 +14,7 @@ const ProductPage = () => {
       productTitle: product.title,
       productImage: product.image,
       type: item.type,
-      price: item.price,
+      price: String (item.price),
       itemImage: item.image // Diamond/UC/Welkin image
     };
     

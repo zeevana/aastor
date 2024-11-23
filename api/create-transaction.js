@@ -24,9 +24,10 @@ export default async function handler(req, res) {
             console.log('Clean Price:', cleanPrice);
 
             // Validasi jika harga bersih tidak valid
-            if (isNaN(cleanPrice) || cleanPrice <= 0) {
-                return res.status(400).json({ error: 'Invalid price format' });
+            if (typeof price !== 'string' && typeof price !== 'number') {
+                return res.status(400).json({ error: 'Price must be a string or number' });
             }
+            
 
             // Siapkan parameter untuk transaksi
             const parameter = {
