@@ -13,6 +13,7 @@ function App() {
   return (
     <div>
       <NavbarComponent />
+      <div style={{ paddingTop: "50px" }}></div>
 
       <Routes>
         <Route path="/" element={<HomePage />} />
