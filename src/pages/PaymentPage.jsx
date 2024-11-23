@@ -1,15 +1,59 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+// PaymentPage.jsx
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
-  const location = useLocation();
-  const { product, item } = location.state || {}; // Ambil data dari state
-
+  const navigate = useNavigate();
+  const [paymentData, setPaymentData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    // Function untuk mengambil data pembayaran
+    const loadPaymentData = () => {
+      try {
+        const savedData = localStorage.getItem("paymentData");
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          // Verifikasi data valid dan belum kadaluarsa (15 menit)
+          const isExpired = Date.now() - parsedData.timestamp > 15 * 60 * 1000;
+          
+          if (isExpired) {
+            setError("Sesi pembayaran telah berakhir. Silakan pilih produk kembali.");
+            localStorage.removeItem("paymentData");
+            return;
+          }
+          
+          setPaymentData(parsedData);
+          setError(null);
+        } else {
+          setError("Data pembayaran tidak ditemukan.");
+        }
+      } catch (error) {
+        console.error("Error loading payment data:", error);
+        setError("Terjadi kesalahan saat memuat data pembayaran.");
+      }
+    };
+
+    // Load initial data
+    loadPaymentData();
+
+    // Listen untuk updates
+    const handlePaymentUpdate = (event) => {
+      setPaymentData(event.detail);
+      setError(null);
+    };
+
+    window.addEventListener('paymentDataUpdated', handlePaymentUpdate);
+
+    // Cleanup listener
+    return () => {
+      window.removeEventListener('paymentDataUpdated', handlePaymentUpdate);
+    };
+  }, []);
+
   const handlePayment = async () => {
-    if (!product || !item) return;
+    if (!paymentData) return;
 
     setLoading(true);
     setError(null);
@@ -21,47 +65,93 @@ const PaymentPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          productId: product.id,
-          type: item.type,
-          price: String(item.price),
+          productId: paymentData.productId,
+          type: paymentData.type,
+          price: String(paymentData.price),
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || "Terjadi kesalahan saat memproses pembayaran");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Terjadi kesalahan saat memproses pembayaran");
       }
 
+      const data = await response.json();
+
       if (data.redirect_url) {
+        // Clear payment data before redirecting
+        localStorage.removeItem("paymentData");
         window.location.href = data.redirect_url;
       } else {
         throw new Error("URL pembayaran tidak ditemukan");
       }
     } catch (error) {
+      console.error("Error:", error);
       setError(error.message);
     } finally {
       setLoading(false);
     }
   };
 
+  if (!paymentData) {
+    return (
+      <div className="error-container">
+        <p className="error-message">{error || "Data tidak ditemukan."}</p>
+        <button className="back-button" onClick={() => navigate("/product")}>
+          Kembali ke Produk
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      {product && item ? (
-        <div>
-          <h1>Detail Pembayaran</h1>
-          <img src={product.image} alt={product.title} />
-          <h2>{product.title}</h2>
-          <p>{item.type} - Rp {item.price}</p>
-          <button onClick={handlePayment}>
-            {loading ? "Memproses Pembayaran..." : "Bayar Sekarang"}
-          </button>
+    <div className="payment-container">
+      <div className="payment-card">
+        <h2 className="payment-title">Detail Pembayaran</h2>
+
+        <div className="payment-info">
+          <div className="product-preview">
+            <img
+              src={paymentData.productImage}
+              alt={paymentData.productTitle}
+              className="payment-image"
+            />
+            <h3 className="product-name">{paymentData.productTitle}</h3>
+          </div>
+
+          <div className="payment-details">
+            <div className="detail-item">
+              <span className="detail-label">Item:</span>
+              <div className="detail-value-container">
+                {paymentData.itemImage && (
+                  <img
+                    src={paymentData.itemImage}
+                    alt={paymentData.type}
+                    className="currency-icon-small"
+                  />
+                )}
+                <span className="detail-value">{paymentData.type}</span>
+              </div>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Harga:</span>
+              <span className="detail-value price">
+                Rp {paymentData.price.toLocaleString("id-ID")}
+              </span>
+            </div>
+          </div>
         </div>
-      ) : (
-        <div>
-          <h2>Produk tidak ditemukan</h2>
-        </div>
-      )}
+
+        {error && <div className="error-message">{error}</div>}
+
+        <button
+          className="payment-button"
+          onClick={handlePayment}
+          disabled={loading}
+        >
+          {loading ? "Memproses Pembayaran..." : "Bayar Sekarang"}
+        </button>
+      </div>
     </div>
   );
 };
