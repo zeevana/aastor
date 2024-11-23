@@ -13,11 +13,11 @@ const PaymentPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+  // Fungsi untuk menangani pembayaran
   const handlePayment = async () => {
-    if (isPopupOpen) return; // Prevent multiple clicks while the popup is open
-    setIsPopupOpen(true);
+    if (!harga || !kelas) return;
+    setLoading(true);
+    setError(null);
   
     try {
       const response = await fetch("/api/create-transaction", {
@@ -26,8 +26,9 @@ const PaymentPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          price: String(harga.price),
+          productId: kelas.id,
           type: harga.type,
+          price: String(harga.price),
         }),
       });
   
@@ -39,25 +40,24 @@ const PaymentPage = () => {
       const data = await response.json();
   
       if (data.token) {
+        // Buka Snap modal menggunakan token yang diterima dari backend
         window.snap.pay(data.token, {
           onSuccess: (result) => {
             console.log("Success:", result);
             alert("Pembayaran berhasil!");
-            setIsPopupOpen(false);
+            // Navigasi ke halaman sukses
+            navigate("/success", { state: { result } });
           },
           onPending: (result) => {
             console.log("Pending:", result);
-            alert("Pembayaran tertunda.");
-            setIsPopupOpen(false);
+            alert("Pembayaran tertunda. Mohon selesaikan pembayaran Anda.");
           },
           onError: (error) => {
             console.error("Error:", error);
-            alert("Pembayaran gagal.");
-            setIsPopupOpen(false);
+            alert("Pembayaran gagal. Silakan coba lagi.");
           },
           onClose: () => {
             alert("Anda menutup halaman pembayaran.");
-            setIsPopupOpen(false);
           },
         });
       } else {
@@ -65,13 +65,11 @@ const PaymentPage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      alert(error.message || "Gagal memproses pembayaran");
-      setIsPopupOpen(false);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
-  
-  
-  
   
 
   // Jika data tidak ditemukan, tampilkan pesan error
