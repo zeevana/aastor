@@ -51,7 +51,7 @@ export const navLinks = [
   },
   {
     id: 5,
-    path: "syaratketen",
+    path: "terms-and-conditions",
     text: "Syarat & Ketentuan",
   },
 ];
