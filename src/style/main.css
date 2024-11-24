@@ -540,7 +540,7 @@
     background: #1d4ed8;
   }
   
-  /* Payment Page Styles */
+                                                      /* Payment Page Styles */
   .payment-container {
     min-height: 100vh;
     display: flex;
@@ -702,4 +702,63 @@
     color: #2563eb;
   }
   
-  /* Sisanya menggunakan styles yang sudah ada sebelumnya */
+
+                                                  /*Term&Condision*/
+  .terms-container {
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 800px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: "Arial", sans-serif;
+  }
+  
+  .terms-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .terms-content {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+  }
+  
+  .terms-content h2 {
+    font-size: 1.5rem;
+    color: #444;
+    margin-top: 20px;
+  }
+  
+  .terms-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
+  
+  .terms-content ul li {
+    margin-bottom: 10px;
+  }
+  
+  .terms-content p,
+  .terms-content li {
+    color: #666;
+  }
+  
+  @media (max-width: 768px) {
+    .terms-container {
+      padding: 20px;
+    }
+  
+    .terms-title {
+      font-size: 2rem;
+    }
+  
+    .terms-content h2 {
+      font-size: 1.3rem;
+    }
+  }
+  
