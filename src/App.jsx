@@ -7,7 +7,6 @@ import KelasPage from './pages/KelasPage';
 import FooterComponent from './components/FooterComponent';
 import KelasDetail from './pages/KelasDetail';
 import PaymentPage from './pages/PaymentPage';
-import ProductPage from './pages/ProductPage';
 import TermsAndConditions from './pages/TermsAndConditions';
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/kelas/:kelasId" element={<KelasDetail />} />
         <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/product" element={<ProductPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       </Routes>
 
@@ -30,5 +28,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
