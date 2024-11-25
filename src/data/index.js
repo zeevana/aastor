@@ -57,75 +57,80 @@ export const navLinks = [
 ];
 
 export const semuaKelas = [
-  {
-    id: 1,
-    image: KelasImage1,
-    title: "Ghensin Impact",
-    price: [
-      { type: "moon x1", price: 62000, image: Welkin },
-      { type: "moon x2", price: 122000, image: Welkin },
-      { type: "moon x3", price: 182000, image: Welkin },
-      { type: "moon x4", price: 240000, image: Welkin },
-      { type: "moon x5", price: 300000, image: Welkin },
-    ],
-    category: ['game_pc', 'game_android', 'game_populer'],
-    delay: "1300",
-  },
-  {
-    id: 2,
-    image: KelasImage2,
-    title: "Free Fire",
-    price: [
-      { type: "70", price: 11000, image: Diamond },
-      { type: "100", price: 16000, image: Diamond },
-      { type: "140", price: 21000, image: Diamond },
-      { type: "210", price: 31000, image: Diamond },
-      { type: "280", price: 41000, image: Diamond },
-      { type: "355", price: 51000, image: Diamond },
-      { type: "420", price: 61000, image: Diamond },
-      { type: "500", price: 71000, image: Diamond },
-      { type: "720", price: 99000, image: Diamond },
-      { type: "1000", price: 140000, image: Diamond },
-      { type: "2160", price: 300000, image: Diamond },
-    ],
-    category: ["game_populer", "game_android"],
-    delay: "1600",
-  },
-  {
-    id: 3,
-    image: KelasImage3,
-    title: "Mobile Legend",
-    price: [
-      { type: "28 dm", price: 10000, image: Diamond },
-      { type: "85 dm", price: 25000, image: Diamond },
-      { type: "110 dm", price: 34000, image: Diamond },
-      { type: "258 dm", price: 75000, image: Diamond },
-      { type: "356 dm", price: 105000, image: Diamond },
-      { type: "568 dm", price: 155000, image: Diamond },
-      { type: "875 dm", price: 235000, image: Diamond },
-      { type: "1159 dm", price: 310000, image: Diamond },
-      { type: "1506 dm", price: 408000, image: Diamond },
-      { type: "2232 dm", price: 570000, image: Diamond },
-    ],
-    category: ["game_android", 'game_populer'],
-    delay: "1900",
-  },
-  {
-    id: 4,
-    image: KelasImage4,
-    title: "PUBG Mobile",
-    price: [
-      { type: "60 uc", price: 15000, image: Uc },
-      { type: "325 uc", price: 67000, image: Uc },
-      { type: "660 uc", price: 130000, image: Uc },
-      { type: "1800 uc", price: 335000, image: Uc },
-    ],
-    category: ["game_populer", 'game_android'],
-    delay: "",
-  },
+    {
+      id: 1,
+      image: KelasImage1,
+      title: "Ghensin Impact",
+      price: [
+        { type: "moon x1", price: 62000, image: Welkin },
+        { type: "moon x2", price: 122000, image: Welkin },
+        { type: "moon x3", price: 182000, image: Welkin },
+        { type: "moon x4", price: 240000, image: Welkin },
+        { type: "moon x5", price: 300000, image: Welkin },
+      ],
+      category: ['game_pc', 'game_android', 'game_populer'],
+      delay: "1300",
+    },
+    {
+      id: 2,
+      image: KelasImage2,
+      title: "Free Fire",
+      price: [
+        { type: "70", price: 11000, image: Diamond },
+        { type: "100", price: 16000, image: Diamond },
+        { type: "140", price: 21000, image: Diamond },
+        { type: "210", price: 31000, image: Diamond },
+        { type: "280", price: 41000, image: Diamond },
+        { type: "355", price: 51000, image: Diamond },
+        { type: "420", price: 61000, image: Diamond },
+        { type: "500", price: 71000, image: Diamond },
+        { type: "720", price: 99000, image: Diamond },
+        { type: "1000", price: 140000, image: Diamond },
+        { type: "2160", price: 300000, image: Diamond },
+      ],
+      category: ["game_populer", "game_android"],
+      delay: "1600",
+    },
+    {
+      id: 3,
+      image: KelasImage3,
+      title: "Mobile Legend",
+      price: [
+        { type: "28 dm", price: 10000, image: Diamond },
+        { type: "85 dm", price: 25000, image: Diamond },
+        { type: "110 dm", price: 34000, image: Diamond },
+        { type: "258 dm", price: 75000, image: Diamond },
+        { type: "356 dm", price: 105000, image: Diamond },
+        { type: "568 dm", price: 155000, image: Diamond },
+        { type: "875 dm", price: 235000, image: Diamond },
+        { type: "1159 dm", price: 310000, image: Diamond },
+        { type: "1506 dm", price: 408000, image: Diamond },
+        { type: "2232 dm", price: 570000, image: Diamond },
+      ],
+      category: ["game_android", 'game_populer'],
+      delay: "1900",
+    },
+    {
+      id: 4,
+      image: KelasImage4,
+      title: "PUBG Mobile",
+      price: [
+        { type: "60 uc", price: 15000, image: Uc },
+        { type: "325 uc", price: 67000, image: Uc },
+        { type: "660 uc", price: 130000, image: Uc },
+        { type: "1800 uc", price: 335000, image: Uc },
+      ],
+      category: ["game_populer", 'game_android'],
+      delay: "",
+    },
   {
     id: 5,
     image: KelasImage5,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star",
     title: "Roblox",
     price: [
       { type: "2000 Robux", price: 378000 },
@@ -138,6 +143,11 @@ export const semuaKelas = [
   {
     id: 6,
     image: KelasImage6,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star",
     title: "Valorant",
     price: [
       { type: "moon x1", price: 100000 },
@@ -150,6 +160,11 @@ export const semuaKelas = [
   {
     id: 7,
     image: KelasImage7,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star-half-stroke",
     title: "Clash of Clans ",
     price: [
       { type: "moon x1", price: 100000 },
@@ -162,6 +177,11 @@ export const semuaKelas = [
   {
     id: 8,
     image: KelasImage8,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star-half-stroke",
     title: "Undawn",
     price: [
       { type: "moon x1", price: 100000 },
@@ -174,6 +194,11 @@ export const semuaKelas = [
   {
     id: 9,
     image: KelasImage9,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star-half-stroke",
     title: "Black Clover",
     price: [
       { type: "moon x1", price: 100000 },
@@ -183,6 +208,89 @@ export const semuaKelas = [
     category: "game_android",
     delay: "600",
   },
+];
+
+
+export const kelasTerbaru = [
+  {
+    id: 1,
+    image: KelasImage1,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star-half-stroke",
+    title: "Ghensin Impact",
+    price: "Rp. 300.000",
+    buy: "Check",
+    delay: "",
+  },
+  {
+    id: 2,
+    image: KelasImage2,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star",
+    title: "Free Fire",
+    price: "Rp. 340.000",
+    buy: "Check",
+    delay: "200",
+  },
+  {
+    id: 3,
+    image: KelasImage3,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star",
+    title: "Mobile Legends",
+    price: "Rp. 280.000",
+    buy: "Check",
+    delay: "400",
+  },
+  {
+    id: 4,
+    image: KelasImage4,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star",
+    title: "PUBG Mobile",
+    price: "Rp. 420.000",
+    buy: "Check",
+    delay: "",
+  },
+  {
+    id: 5,
+    image: KelasImage5,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star",
+    title: "Roblox",
+    price: "Rp. 380.000",
+    buy: "Check",
+    delay: "200",
+  },
+  {
+    id: 6,
+    image: KelasImage6,
+    star1: "fa-solid fa-star",
+    star2: "fa-solid fa-star",
+    star3: "fa-solid fa-star",
+    star4: "fa-solid fa-star",
+    star5: "fa-solid fa-star",
+    title: "Valorant",
+    price: "Rp. 300.000",
+    buy: "Check",
+    delay: "400",
+  },
+  
 ];
 
 export const testimonial = [
@@ -332,4 +440,89 @@ export const faq = [
     title: "Apakah Top Up Disini Aman?",
     desc: "Tentu saja, aman dan legal",
   },
+];
+
+
+// Data harga
+export const priceList = [
+  { id: 1, item: "Moon x1", price: "Rp 25.000" },
+  { id: 2, item: "Moon x2", price: "Rp 50.000" },
+  { id: 3, item: "Moon x3", price: "Rp 75.000" }
+];
+
+export const ff = [
+  { id: 1, item: "70", price: "10000" },
+  { id: 2, item: "100", price: "15000" },
+  { id: 3, item: "dm 140", price: "Rp 22.000" },
+  { id: 4, item: "dm 210", price: "Rp 32.000" },
+  { id: 5, item: "dm 280", price: "Rp 42.000" },
+  { id: 6, item: "dm 355", price: "Rp 52.000" },
+  { id: 7, item: "dm 420", price: "Rp 62.000" },
+  { id: 8, item: "dm 500", price: "Rp 72.000" },
+  { id: 9, item: "dm 720", price: "Rp 100.000" },
+ 
+
+];
+
+export const ml = [
+  { id: 1, item: "dm 85", price: "Rp 23.000" },
+  { id: 2, item: "dm 110", price: "Rp 32.000" },
+  { id: 3, item: "dm 277", price: "Rp 76.000" },
+  { id: 4, item: "dm 568", price: "Rp 155.000" },
+  { id: 5, item: "dm 642", price: "Rp 175.000" },
+  { id: 6, item: "dm 716", price: "Rp 195.000" },
+];
+
+export const tryPage = [
+  {
+    id: "genshin",
+    title: "Ghensin Impact",
+    image: "/images/genshin.jpg",
+    items: [
+      {
+        id: "moon-x1",
+        type: "moon x1",
+        price: 62000,
+        image: "/images/moon.png"
+      },
+      {
+        id: "moon-x2",
+        type: "moon x2", 
+        price: 122000,
+        image: "/images/moon.png"
+      },
+      {
+        id: "moon-x3",
+        type: "moon x3",
+        price: 182000,
+        image: "/images/moon.png"
+      }
+    ]
+  },
+  {
+    id: "freefire",
+    title: "Free Fire",
+    image: "/images/freefire.jpg",
+    items: [
+      {
+        id: "diamond-70",
+        type: "70",
+        price: 10000,
+        image: "/images/diamond.png"
+      },
+      {
+        id: "diamond-100",
+        type: "100",
+        price: 15000,
+        image: "/images/diamond.png"
+      },
+      {
+        id: "diamond-140",
+        type: "140",
+        price: 20000,
+        image: "/images/diamond.png"
+      }
+    ]
+  },
+ 
 ];
