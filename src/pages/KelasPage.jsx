@@ -28,9 +28,9 @@ const KelasPage = () => {
   return (
     <div className="homepage">
       <header className="w-100 min-vh-100 d-flex align-items-center header">
-        <Container>
-          <Row>
-            <Col>
+        <Container className="bContainer">
+          <Row className="bRow">
+            <Col className="bCol">
               <CarouselBanner />
             </Col>
           </Row>
