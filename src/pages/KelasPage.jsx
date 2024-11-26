@@ -34,21 +34,7 @@ const KelasPage = () => {
               <CarouselBanner />
             </Col>
           </Row>
-          <Row className="header-box d-flex align-items-center mt-4">
-            <Col lg="6">
-              <h1 className="mb-4">
-                Top Up <br /> <span>Game Murah</span> <br />
-                Cuma disini!!!
-              </h1>
-              <p className="mb-4">
-                Selamat datang di AaStore, destinasi utama untuk top up game
-                dengan harga terbaik! Temukan beragam game favoritmu dan nikmati
-                kemudahan top up tanpa ribet. Dapatkan pengalaman bermain game
-                yang lebih seru dan lancar dengan layanan top up terpercaya dari
-                AaStore!
-              </p>
-            </Col>
-          </Row>
+         
         </Container>
       </header>
 
