@@ -27,7 +27,7 @@ const CarouselBanner = () => {
   ];
 
   return (
-    <Carousel>
+    <Carousel className="mt-3">
       {banners.map((banner) => (
         <Carousel.Item key={banner.id}>
           <img
