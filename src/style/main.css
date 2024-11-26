@@ -183,12 +183,12 @@
 /*STYLE HOMEPAGE LIST*/
 .homepage .kelas {
     background-color: var(--primary-color);
-    padding-bottom: 100px;
+    padding-bottom: 20px;
 }
 
 .homepage .kelas .row:nth-child(1){
-    padding-top: 150px;
-    padding-bottom: 100px;
+    padding-top: 30px;
+    padding-bottom: 20px;
 }
 
 .homepage .kelas .row:nth-child(1) h1 ,
