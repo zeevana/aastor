@@ -8,20 +8,20 @@ const CarouselBanner = () => {
   const banners = [
     {
       id: 1,
-      title: "Top Up Murah dan Aman",
-      subtitle: "Save Up to 20%",
+      //title: "Top Up Murah dan Aman",
+      //subtitle: "Save Up to 20%",
       image:banner1, // Ganti dengan URL gambar Anda
     },
     {
       id: 2,
-      title: "Giveaway Bulanan",
-      subtitle: "Dapatkan Headset Gratis",
+      //title: "Giveaway Bulanan",
+      //subtitle: "Dapatkan Headset Gratis",
       image: banner2, // Ganti dengan URL gambar Anda
     },
     {
       id: 3,
-      title: "Promo Spesial",
-      subtitle: "Nikmati Diskon Hingga 50%",
+      //title: "Promo Spesial",
+      //subtitle: "Nikmati Diskon Hingga 50%",
       image: banner1, // Ganti dengan URL gambar Anda
     },
   ];
@@ -33,12 +33,8 @@ const CarouselBanner = () => {
           <img
             className="d-block w-100"
             src={banner.image}
-            alt={banner.title}
+            //alt={banner.title}
           />
-          <Carousel.Caption>
-            <h3>{banner.title}</h3>
-            <p>{banner.subtitle}</p>
-          </Carousel.Caption>
         </Carousel.Item>
       ))}
     </Carousel>
