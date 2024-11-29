@@ -42,9 +42,9 @@ Halo! Saya telah melakukan pembayaran dengan detail berikut:
 💵 *Harga*: Rp ${selectedItem.price.toLocaleString("id-ID")}
 --------------------------------------------
 📄 *Data Game Saya:* 
-  - ID: ${formData.ID}
-  - Server: ${formData.Server}
-  - No Whatsapp: ${formData.NoWhatsapp}
+${Object.entries(formData)
+  .map(([key, value]) => `\n  ${key}: ${value}`)
+  .join("\n")}
   
 Terima kasih!
 `;
