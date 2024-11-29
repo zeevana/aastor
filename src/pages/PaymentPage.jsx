@@ -12,41 +12,42 @@ const PaymentPage = () => {
     if (isProcessing) return;
     setIsProcessing(true);
     setError(null);
-  
+
     try {
-      const response = await fetch("/api/create-transaction", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          price: selectedItem.price,
-          type: selectedItem.type,
-          formData,
-        }),
-      });
-  
-      if (!response.ok) {
-        throw new Error("Gagal mendapatkan respons dari server");
-      }
-  
-      const data = await response.json();
-  
-      if (data.token) {
-        window.snap.pay(data.token, {
-          onSuccess: (result) => alert("Pembayaran Berhasil!"),
-          onPending: (result) => alert("Pembayaran Pending."),
-          onError: (error) => alert("Pembayaran Gagal."),
-          onClose: () => alert("Pembayaran Dibatalkan."),
+        const response = await fetch("/api/create-transaction", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                price: Number(selectedItem.price),  // Pastikan harga dikirim sebagai angka
+                type: selectedItem.type,
+                formData,
+            }),
         });
-      } else {
-        throw new Error("Token pembayaran tidak ditemukan.");
-      }
+
+        if (!response.ok) {
+            throw new Error("Gagal mendapatkan respons dari server");
+        }
+
+        const data = await response.json();
+
+        if (data.token) {
+            window.snap.pay(data.token, {
+                onSuccess: (result) => alert("Pembayaran Berhasil!"),
+                onPending: (result) => alert("Pembayaran Pending."),
+                onError: (error) => alert("Pembayaran Gagal."),
+                onClose: () => alert("Pembayaran Dibatalkan."),
+            });
+        } else {
+            throw new Error("Token pembayaran tidak ditemukan.");
+        }
     } catch (err) {
-      console.error("Error pembayaran:", err);
-      setError(err.message || "Terjadi kesalahan.");
+        console.error("Error pembayaran:", err);
+        setError(err.message || "Terjadi kesalahan.");
     } finally {
-      setIsProcessing(false);
+        setIsProcessing(false);
     }
-  };
+};
+
 
   if (!selectedItem || !kelas) {
     return (
