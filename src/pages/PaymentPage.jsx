@@ -18,7 +18,7 @@ const PaymentPage = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                price: Number(selectedItem.price),  // Pastikan harga dikirim sebagai angka
+                price: Number(selectedItem.price),
                 type: selectedItem.type,
                 formData,
             }),
@@ -32,7 +32,26 @@ const PaymentPage = () => {
 
         if (data.token) {
             window.snap.pay(data.token, {
-                onSuccess: (result) => alert("Pembayaran Berhasil!"),
+                onSuccess: (result) => {
+                    // Format data untuk pesan WhatsApp
+                    const message = `
+Halo, Saya telah melakukan pembayaran dengan detail berikut:
+- Kelas: ${kelas.title}
+- Item: ${selectedItem.type}
+- Harga: Rp ${selectedItem.price.toLocaleString("id-ID")}
+- Data Pembeli: ${Object.entries(formData)
+                        .map(([key, value]) => `\n  ${key}: ${value}`)
+                        .join("")}
+
+Terima kasih!`;
+
+                    // Encode pesan untuk digunakan di URL
+                    const encodedMessage = encodeURIComponent(message);
+
+                    // Arahkan ke WhatsApp
+                    const whatsappUrl = `https://wa.me/085269512024?text=${encodedMessage}`;
+                    window.location.href = whatsappUrl;
+                },
                 onPending: (result) => alert("Pembayaran Pending."),
                 onError: (error) => alert("Pembayaran Gagal."),
                 onClose: () => alert("Pembayaran Dibatalkan."),
@@ -47,6 +66,7 @@ const PaymentPage = () => {
         setIsProcessing(false);
     }
 };
+
 
 
   if (!selectedItem || !kelas) {
