@@ -1,191 +1,118 @@
-import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { semuaKelas } from "../data/index";
-import { Card, Form, Button, Row, Col } from "react-bootstrap";
+import { semuaKelas, formPay } from "../data/index"; // Pastikan data ini benar-benar diimpor
+import { Card } from "react-bootstrap";
+import { useState, useEffect } from "react";
 
 const KelasDetail = () => {
   const { kelasId } = useParams();
   const navigate = useNavigate();
-  const kelas = semuaKelas.find((kelas) => kelas.id === parseInt(kelasId));
-  const [selectedPrice, setSelectedPrice] = useState(null);
-  const [selectedMethod, setSelectedMethod] = useState("");
-  const [userData, setUserData] = useState({ id: "", server: "", wa: "" });
 
-  if (!kelas) {
-    return <div className="text-center">Kelas tidak ditemukan</div>;
+  const [formData, setFormData] = useState({});
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const kelas = semuaKelas.find((kelas) => kelas.id === parseInt(kelasId));
+  const formConfig = formPay.find((form) => form.id === parseInt(kelasId));
+
+  useEffect(() => {
+    // Debugging untuk memastikan data yang diambil sesuai
+    console.log("Kelas:", kelas);
+    console.log("Form Config:", formConfig);
+  }, [kelas, formConfig]);
+
+  if (!kelas || !formConfig) {
+    return <div>Kelas tidak ditemukan</div>;
   }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const renderFormFields = () => {
-    switch (kelas.title) {
-      case "Ghensin Impact":
-        return (
-          <Form.Group controlId="uid">
-            <Form.Label>UID</Form.Label>
-            <Form.Control
-              type="text"
-              name="uid"
-              placeholder="Masukkan UID"
-              value={userData.uid || ""}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-        );
-      case "Free Fire":
-        return (
-          <Form.Group controlId="id">
-            <Form.Label>ID</Form.Label>
-            <Form.Control
-              type="text"
-              name="id"
-              placeholder="Masukkan ID"
-              value={userData.id || ""}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
-        );
-      case "PUBG":
-        return (
-          <>
-            <Form.Group controlId="id">
-              <Form.Label>ID PUBG</Form.Label>
-              <Form.Control
-                type="text"
-                name="id"
-                placeholder="Masukkan ID PUBG"
-                value={userData.id || ""}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group controlId="server">
-              <Form.Label>Server</Form.Label>
-              <Form.Control
-                type="text"
-                name="server"
-                placeholder="Masukkan Server"
-                value={userData.server || ""}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-          </>
-        );
-      default:
-        return null;
-    }
+  const handleSelectItem = (harga) => {
+    setSelectedItem(harga);
   };
 
-  const handlePayment = async () => {
-    if (!selectedPrice || !selectedMethod || !userData.id) {
-      alert("Harap lengkapi semua data sebelum melanjutkan.");
+  const handlePayment = () => {
+    const isFormComplete = formConfig.type
+      .split(", ")
+      .every((field) => formData[field]);
+
+    if (!isFormComplete) {
+      alert("Harap isi semua data pada form!");
       return;
     }
 
-    const payload = {
-      price: selectedPrice.price,
-      type: selectedPrice.type,
-      ...userData,
-    };
-
-    try {
-      const response = await fetch("/api/create-transaction", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-      if (result.token) {
-        window.snap.pay(result.token);
-      } else {
-        alert("Gagal memulai pembayaran.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
+    if (!selectedItem) {
+      alert("Harap pilih salah satu item!");
+      return;
     }
+
+    navigate("/payment", { state: { selectedItem, kelas, formData } });
   };
 
   return (
-    <div className="container mt-4">
-      <div className="text-center mb-4">
-        <img src={kelas.image} alt={kelas.title} className="rounded-circle" width="120" />
-        <h1 className="mt-3">{kelas.title}</h1>
-        <p className="text-muted">Pilih nominal top-up dan isi data untuk melanjutkan pembayaran</p>
+    <div className="kelas-detail">
+      <div className="header-kelasdetail">
+        <div className="logo-container">
+          <img src={kelas.image} alt={kelas.title} className="rounded-logo" />
+        </div>
+        <h1 className="title">{kelas.title}</h1>
+        <p className="subtitle">Pilih nominal top-up dan isi data untuk melanjutkan pembayaran</p>
       </div>
 
-      {/* Pilihan Nominal */}
-      <h3 className="mb-3">Pilih Nominal Top-Up</h3>
-      <Row className="g-3">
+      <div className="card-container">
         {kelas.price.map((harga, index) => (
-          <Col md={4} sm={6} xs={12} key={index}>
-            <Card
-              className={`p-3 shadow-sm ${
-                selectedPrice?.type === harga.type ? "border-primary" : ""
-              }`}
-              onClick={() => setSelectedPrice(harga)}
-              style={{ cursor: "pointer" }}
-            >
-              <Card.Body className="text-center">
-                <img src={harga.image} alt={harga.type} width="50" className="mb-2" />
+          <Card
+            key={index}
+            className={`price-card ${
+              selectedItem === harga ? "selected-card" : ""
+            }`}
+            onClick={() => handleSelectItem(harga)}
+            style={{ cursor: "pointer" }}
+          >
+            <Card.Body className="d-flex align-items-center">
+              <img src={harga.image} alt={harga.type} className="card-image" />
+              <div>
                 <Card.Title>{harga.type}</Card.Title>
-                <Card.Text className="text-success">Rp {harga.price.toLocaleString("id-ID")}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
+                <Card.Text>Rp {harga.price.toLocaleString("id-ID")}</Card.Text>
+              </div>
+            </Card.Body>
+          </Card>
         ))}
-      </Row>
+      </div>
 
-      {/* Form Input */}
-      <div className="mt-4">
-        <h3>Isi Data</h3>
-        <Form>
-          {renderFormFields()}
-          <Form.Group controlId="wa" className="mt-3">
-            <Form.Label>Nomor WhatsApp</Form.Label>
-            <Form.Control
+      <div className="form-container">
+        <form className="form-input">
+          {formConfig.type.split(", ").map((field, index) => (
+            <input
+              key={index}
               type="text"
-              name="wa"
-              placeholder="Masukkan No. WhatsApp"
-              value={userData.wa}
+              name={field}
+              value={formData[field] || ""}
               onChange={handleInputChange}
+              placeholder={`Masukkan ${field}`}
+              className="form-field"
               required
             />
-          </Form.Group>
-        </Form>
-      </div>
-
-      {/* Metode Pembayaran */}
-      <div className="mt-4">
-        <h3>Pilih Metode Pembayaran</h3>
-        <div className="d-flex gap-3">
-          {["Gopay", "Bank Transfer", "Credit Card"].map((method, index) => (
-            <Button
-              key={index}
-              variant={selectedMethod === method ? "primary" : "outline-primary"}
-              onClick={() => setSelectedMethod(method)}
-            >
-              {method}
-            </Button>
           ))}
-        </div>
-      </div>
-
-      {/* Tombol Submit */}
-      <div className="mt-4 text-center">
-        <Button
-          variant="success"
-          size="lg"
+        </form>
+        <button
+          className={`submit-btn ${
+            formConfig.type
+              .split(", ")
+              .every((field) => formData[field]) && selectedItem
+              ? "active-btn"
+              : "disabled-btn"
+          }`}
           onClick={handlePayment}
-          disabled={!selectedPrice || !selectedMethod || !userData.id}
+          disabled={
+            !formConfig.type
+              .split(", ")
+              .every((field) => formData[field]) || !selectedItem
+          }
         >
           Lanjutkan ke Pembayaran
-        </Button>
+        </button>
       </div>
     </div>
   );

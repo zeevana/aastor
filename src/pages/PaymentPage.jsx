@@ -1,82 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // Data yang dikirim melalui navigasi
-  const { state } = location;
-  const { harga, kelas } = state || {};
-
-  // State untuk loading, error, dan pembayaran
-  const [loading, setLoading] = useState(false);
+  const { state } = useLocation();
+  const { selectedItem, kelas, formData } = state || {};
+  const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
 
-  const [isProcessing, setIsProcessing] = useState(false);
-
   const handlePayment = async () => {
-    if (isProcessing || !harga || !kelas) return; // Cegah panggilan ganda
-    setIsProcessing(true); // Tandai sebagai sedang diproses
+    if (isProcessing) return;
+    setIsProcessing(true);
     setError(null);
   
     try {
       const response = await fetch("/api/create-transaction", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          productId: kelas.id,
-          type: harga.type,
-          price: String(harga.price),
+          price: selectedItem.price,
+          type: selectedItem.type,
+          formData,
         }),
       });
   
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Terjadi kesalahan saat memproses pembayaran");
+        throw new Error("Gagal mendapatkan respons dari server");
       }
   
       const data = await response.json();
   
       if (data.token) {
-        // Pastikan token valid
         window.snap.pay(data.token, {
-          onSuccess: (result) => {
-            console.log("Success:", result);
-            alert("Pembayaran berhasil!");
-          },
-          onPending: (result) => {
-            console.log("Pending:", result);
-            alert("Pembayaran tertunda.");
-          },
-          onError: (error) => {
-            console.error("Error:", error);
-            alert("Pembayaran gagal.");
-          },
-          onClose: () => {
-            alert("Anda menutup halaman pembayaran.");
-          },
+          onSuccess: (result) => alert("Pembayaran Berhasil!"),
+          onPending: (result) => alert("Pembayaran Pending."),
+          onError: (error) => alert("Pembayaran Gagal."),
+          onClose: () => alert("Pembayaran Dibatalkan."),
         });
       } else {
-        console.error("Token pembayaran tidak ditemukan.");
-        alert("Gagal mendapatkan token pembayaran.");
+        throw new Error("Token pembayaran tidak ditemukan.");
       }
-    } catch (error) {
-      console.error("Error:", error);
-      setError(error.message);
+    } catch (err) {
+      console.error("Error pembayaran:", err);
+      setError(err.message || "Terjadi kesalahan.");
     } finally {
-      setIsProcessing(false); // Reset flag setelah transaksi selesai
+      setIsProcessing(false);
     }
   };
-  
 
-  // Jika data tidak ditemukan, tampilkan pesan error
-  if (!harga || !kelas) {
+  if (!selectedItem || !kelas) {
     return (
       <div className="error-container">
-        <p>Data pembayaran tidak ditemukan.</p>
+        <p>Data tidak ditemukan.</p>
         <button onClick={() => navigate(-1)}>Kembali</button>
       </div>
     );
@@ -86,34 +61,37 @@ const PaymentPage = () => {
     <div className="payment-container">
       <div className="payment-card">
         <h2 className="payment-title">Detail Pembayaran</h2>
-
         <div className="payment-info">
           <div className="product-preview">
             <img src={kelas.image} alt={kelas.title} className="payment-image" />
             <h3 className="product-name">{kelas.title}</h3>
           </div>
-
           <div className="payment-details">
             <div className="detail-item">
               <span className="detail-label">Item:</span>
-              <span className="detail-value">{harga.type}</span>
+              <span className="detail-value">{selectedItem.type}</span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Harga:</span>
               <span className="detail-value price">
-                Rp {harga.price.toLocaleString("id-ID")}
+                Rp {selectedItem.price.toLocaleString("id-ID")}
               </span>
             </div>
+            {Object.entries(formData).map(([key, value]) => (
+              <div key={key} className="detail-item">
+                <span className="detail-label">{key}:</span>
+                <span className="detail-value">{value}</span>
+              </div>
+            ))}
           </div>
         </div>
-
         {error && <div className="error-message">{error}</div>}
         <button
           className="payment-button"
           onClick={handlePayment}
-          disabled={loading}
+          disabled={isProcessing}
         >
-          {loading ? "Memproses Pembayaran..." : "Bayar Sekarang"}
+          {isProcessing ? "Memproses Pembayaran..." : "Bayar Sekarang"}
         </button>
       </div>
     </div>

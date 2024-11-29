@@ -56,6 +56,25 @@ export const navLinks = [
   },
 ];
 
+export const formPay = [
+  {
+    id : 1,
+    title : "Ghensin Impact",
+    type: "UID, No Whatsapp",
+  },
+  {
+    id :2,
+    title: "Free Fire",
+    type : "ID, Server, No Whatsapp"
+  },
+  {
+    id:3,
+    title: "Mobile Legends",
+    type: "ID, Server, No Whatsapp"
+  }
+];
+
+
 export const semuaKelas = [
     {
       id: 1,
