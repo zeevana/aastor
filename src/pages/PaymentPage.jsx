@@ -35,19 +35,20 @@ const PaymentPage = () => {
                 onSuccess: (result) => {
                     // Format data untuk pesan WhatsApp
                     const message = `
-                    Halo! Saya telah melakukan pembayaran dengan detail berikut:
-                    --------------------------------------------
-                    🕹 *Game*  : ${kelas.title}
-                    🎮 *Item* : ${selectedItem.type}
-                    💵 *Harga*: Rp ${selectedItem.price.toLocaleString("id-ID")}
-                    --------------------------------------------
-                    📄 *Data Game Saya:* 
-                    ${Object.entries(formData)
-                      .map(([key, value]) => `  - ${key}: ${value}`)
-                      .join("\n")}
-                    
-                    Terima kasih!
-                    `;
+Halo! Saya telah melakukan pembayaran dengan detail berikut:
+--------------------------------------------
+🕹 *Game*: ${kelas.title}
+🎮 *Item*: ${selectedItem.type}
+💵 *Harga*: Rp ${selectedItem.price.toLocaleString("id-ID")}
+--------------------------------------------
+📄 *Data Game Saya:* 
+  - ID: ${formData.ID}
+  - Server: ${formData.Server}
+  - No Whatsapp: ${formData.NoWhatsapp}
+  
+Terima kasih!
+`;
+
 
                     // Encode pesan untuk digunakan di URL
                     const encodedMessage = encodeURIComponent(message);
