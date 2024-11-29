@@ -49,7 +49,7 @@ Terima kasih!`;
                     const encodedMessage = encodeURIComponent(message);
 
                     // Arahkan ke WhatsApp
-                    const whatsappUrl = `https://wa.me/+6285269512024?text=${encodedMessage}`;
+                    const whatsappUrl = `https://wa.me/6285269512024?text=${encodedMessage}`;
                     window.location.href = whatsappUrl;
                 },
                 onPending: (result) => alert("Pembayaran Pending."),
