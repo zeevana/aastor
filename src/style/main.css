@@ -906,7 +906,7 @@
 /* Responsif untuk layar lebih kecil (max-width 480px) */
 @media (max-width: 480px) {
   .price-card {
-    width: 100%; /* Satu kolom penuh pada layar sangat kecil */
+    width: 30%; /* Satu kolom penuh pada layar sangat kecil */
     font-size: 10px; /* Ukuran font sangat kecil */
     padding: 12px; /* Padding lebih kecil */
   }
