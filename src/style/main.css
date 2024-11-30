@@ -809,7 +809,7 @@
   }
   
   .price-card {
-    width: 250px;
+    width: 200px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border: none;
     transition: transform 0.3s ease;
@@ -896,7 +896,7 @@
   }
 
   .price-card {
-    width: 48%; /* Lebar card 48% pada layar 480px untuk 2 per baris */
+    width: 40%; /* Lebar card 48% pada layar 480px untuk 2 per baris */
     font-size: 12px; /* Ukuran font lebih kecil untuk layar kecil */
     padding: 10px; /* Padding lebih kecil */
   }
@@ -910,23 +910,6 @@
   }
 }
 
-
-/* Responsif untuk layar lebih kecil (max-width 320px) */
-@media (max-width: 320px) {
-  .price-card {
-    width: 100%; /* Satu kolom penuh pada layar sangat kecil */
-    font-size: 10px; /* Ukuran font lebih kecil lagi */
-    padding: 8px; /* Padding lebih kecil */
-  }
-
-  .card-image {
-    width: 25px; /* Gambar lebih kecil */
-  }
-
-  .card-title, .card-text {
-    font-size: 10px; /* Ukuran font lebih kecil dalam card */
-  }
-}
 
 .price-card {
   transition: 0.3s;
