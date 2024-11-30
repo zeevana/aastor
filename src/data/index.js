@@ -60,7 +60,7 @@ export const formPay = [
   {
     id : 1,
     title : "Ghensin Impact",
-    type: "UID, No Whatsapp",
+    type: "UID, Server, No Whatsapp",
   },
   {
     id :2,

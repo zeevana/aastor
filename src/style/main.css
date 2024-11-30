@@ -887,37 +887,43 @@
   .submit-btn {
     width: 100%; /* Semua elemen memenuhi lebar */
   }
+}
+
+/* Responsif untuk layar 480px */
+@media (max-width: 480px) {
+  .card-container {
+    justify-content: space-between; /* Menyebarkan card dengan jarak yang sama */
+  }
+
   .price-card {
-    width: 30%; /* Menjadi 3 kolom pada layar kecil */
-    font-size: 12px; /* Ukuran font lebih kecil */
-    padding: 15px; /* Padding lebih kecil */
+    width: 30%; /* Lebar 3 kolom dalam satu baris */
+    font-size: 12px; /* Ukuran font lebih kecil untuk layar kecil */
+    padding: 10px; /* Padding lebih kecil */
   }
 
   .card-image {
-    width: 25px; /* Menyesuaikan ukuran gambar */
+    width: 30px; /* Ukuran gambar lebih kecil */
   }
 
-  .card-title,
-  .card-text {
-    font-size: 12px; /* Ukuran font dalam card lebih kecil */
+  .card-title, .card-text {
+    font-size: 12px; /* Ukuran font lebih kecil dalam card */
   }
 }
 
-/* Responsif untuk layar lebih kecil (max-width 480px) */
-@media (max-width: 480px) {
+/* Responsif untuk layar lebih kecil (max-width 320px) */
+@media (max-width: 320px) {
   .price-card {
-    width: 30%; /* Satu kolom penuh pada layar sangat kecil */
-    font-size: 10px; /* Ukuran font sangat kecil */
-    padding: 12px; /* Padding lebih kecil */
+    width: 100%; /* Satu kolom penuh pada layar sangat kecil */
+    font-size: 10px; /* Ukuran font lebih kecil lagi */
+    padding: 8px; /* Padding lebih kecil */
   }
 
   .card-image {
-    width: 20px; /* Gambar lebih kecil */
+    width: 25px; /* Gambar lebih kecil */
   }
 
-  .card-title,
-  .card-text {
-    font-size: 10px; /* Ukuran font dalam card lebih kecil */
+  .card-title, .card-text {
+    font-size: 10px; /* Ukuran font lebih kecil dalam card */
   }
 }
 
