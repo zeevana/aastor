@@ -764,148 +764,149 @@
 
 
                                                                     /*KELASSETAIL*/
-  /* Styling untuk .kelas-detail dan elemen lainnya tetap sama */
-.kelas-detail {
-  background-color: #ffffff96;
-  padding: 20px;
-  text-align: center;
-}
-
-.header {
-  margin-bottom: 30px;
-}
-
-.logo-container {
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
-}
-
-.rounded-logo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-}
-
-.title {
-  font-size: 25px;
-  font-weight: bold;
-  color: #333;
-  margin-top: 15px;
-}
-
-.subtitle {
-  font-size: 16px;
-  color: #555;
-  margin-top: 20px;
-}
-
-/* Styling untuk card harga */
-.card-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.price-card {
-  width: 250px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: none;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.price-card:hover {
-  transform: scale(1.05);
-}
-
-.card-image {
-  width: 35px;
-  margin-right: 20px;
-}
-
-/* Form Container */
-.form-container {
-  display: flex;
-  justify-content: space-between; /* Membuat elemen berada di sebelah kanan dan kiri */
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.form-input {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Membagi form menjadi 6 kolom */
-  gap: 10px;
-  max-width: 100%;
-  margin: 0 auto;
-  align-items: center;
-  justify-items: center;
-}
-
-.form-field {
-  width: 100%; /* Input menyesuaikan kolom */
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 2px solid #00bcd4;
-  border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.form-field:focus {
-  outline: none;
-  border-color: #0288d1;
-  box-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
-}
-
-.submit-btn {
-  padding: 12px 15px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #ffffff;
-  background-color: #00bcd4;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 100%;
-}
-
-.submit-btn:hover {
-  background-color: #0288d1;
-  transform: scale(1.05);
-}
-
-.submit-btn:active {
-  background-color: #01579b;
-  transform: scale(0.98);
-}
-
-/* Responsif untuk layar kecil (mobile) */
-@media (max-width: 768px) {
-  .form-container {
-    flex-direction: column; /* Semua elemen berada dalam satu kolom */
-  }
-
-  .form-input {
-    grid-template-columns: 1fr; /* Semua input berada di bawah card harga */
-  }
-
-  .submit-btn {
-    width: 100%; /* Tombol memenuhi lebar */
-  }
-
-  .price-card {
-    width: 100%; /* Card harga juga memenuhi lebar layar */
-  }
-}
-
-.price-card.selected-card {
-  border: 2px solid #007bff;
-  background-color: #f0f8ff;
-}
+                                                                    .kelas-detail {
+                                                                      background-color: #ffffff96;
+                                                                      padding: 20px;
+                                                                      text-align: center;
+                                                                    }
+                                                                    
+                                                                    .header-kelasdetail {
+                                                                      margin-bottom: 30px;
+                                                                    }
+                                                                    
+                                                                    .logo-container {
+                                                                      margin: 0 auto;
+                                                                      width: 100px;
+                                                                      height: 100px;
+                                                                    }
+                                                                    
+                                                                    .rounded-logo {
+                                                                      width: 100%;
+                                                                      height: 100%;
+                                                                      object-fit: cover;
+                                                                      border-radius: 50%;
+                                                                      border: 2px solid #ffffff;
+                                                                    }
+                                                                    
+                                                                    .title {
+                                                                      font-size: 25px;
+                                                                      font-weight: bold;
+                                                                      color: #333;
+                                                                      margin-top: 15px;
+                                                                    }
+                                                                    
+                                                                    .subtitle {
+                                                                      font-size: 16px;
+                                                                      color: #555;
+                                                                      margin-top: 20px;
+                                                                    }
+                                                                    
+                                                                    .card-container {
+                                                                      display: flex;
+                                                                      justify-content: center;
+                                                                      gap: 20px;
+                                                                      flex-wrap: wrap;
+                                                                    }
+                                                                    
+                                                                    .price-card {
+                                                                      width: 250px;
+                                                                      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                                                      border: none;
+                                                                      transition: transform 0.3s ease;
+                                                                      cursor: pointer;
+                                                                    }
+                                                                    
+                                                                    .price-card:hover {
+                                                                      transform: scale(1.05);
+                                                                    }
+                                                                    
+                                                                    .card-image {
+                                                                      width: 35px;
+                                                                      margin-right: 20px;
+                                                                    }
+                                                                    
+                                                                    /* Form Container */
+                                                                    .form-container {
+                                                                      display: flex;
+                                                                      justify-content: space-between; /* Membuat elemen berada di sebelah kanan dan kiri */
+                                                                      flex-wrap: wrap;
+                                                                      gap: 20px;
+                                                                      margin-top: 30px;
+                                                                    }
+                                                                    
+                                                                    .form-input {
+                                                                      display: grid;
+                                                                      grid-template-columns: repeat(6, 1fr); /* Membagi form menjadi 6 kolom */
+                                                                      gap: 10px;
+                                                                      max-width: 100%;
+                                                                      margin: 0 auto;
+                                                                      align-items: center;
+                                                                      justify-items: center;
+                                                                    }
+                                                                    
+                                                                    .form-field {
+                                                                      width: 100%; /* Input menyesuaikan kolom */
+                                                                      padding: 12px 15px;
+                                                                      font-size: 16px;
+                                                                      border: 2px solid #00bcd4;
+                                                                      border-radius: 8px;
+                                                                      background-color: #ffffff;
+                                                                      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                                                      transition: all 0.3s ease;
+                                                                    }
+                                                                    
+                                                                    .form-field:focus {
+                                                                      outline: none;
+                                                                      border-color: #0288d1;
+                                                                      box-shadow: 0 0 8px rgba(0, 188, 212, 0.5);
+                                                                    }
+                                                                    
+                                                                    .submit-btn {
+                                                                      padding: 12px 15px;
+                                                                      font-size: 16px;
+                                                                      font-weight: bold;
+                                                                      color: #ffffff;
+                                                                      background-color: #00bcd4;
+                                                                      border: none;
+                                                                      border-radius: 8px;
+                                                                      cursor: pointer;
+                                                                      transition: background-color 0.3s ease, transform 0.2s ease;
+                                                                      width: 100%;
+                                                                    }
+                                                                    
+                                                                    .submit-btn:hover {
+                                                                      background-color: #0288d1;
+                                                                      transform: scale(1.05);
+                                                                    }
+                                                                    
+                                                                    .submit-btn:active {
+                                                                      background-color: #01579b;
+                                                                      transform: scale(0.98);
+                                                                    }
+                                                                    
+                                                                    /* Responsif untuk layar kecil (mobile) */
+                                                                    @media (max-width: 768px) {
+                                                                      .form-container {
+                                                                        flex-direction: row; /* Sejajarkan form input dan card harga secara horizontal */
+                                                                        flex-wrap: wrap; /* Agar tetap melipat dengan baik */
+                                                                      }
+                                                                    
+                                                                      .form-input {
+                                                                        grid-template-columns: repeat(6, 1fr); /* Tetap 6 kolom, meskipun di layar kecil */
+                                                                        gap: 10px;
+                                                                        margin: 0 auto;
+                                                                      }
+                                                                    
+                                                                      .submit-btn {
+                                                                        width: 100%; /* Tombol memenuhi lebar */
+                                                                      }
+                                                                    
+                                                                      .price-card {
+                                                                        width: 100%; /* Card harga juga memenuhi lebar layar */
+                                                                      }
+                                                                    }
+                                                                    
+                                                                    .price-card.selected-card {
+                                                                      border: 2px solid #007bff;
+                                                                      background-color: #f0f8ff;
+                                                                    }
