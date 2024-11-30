@@ -57,7 +57,9 @@ const KelasDetail = () => {
           <img src={kelas.image} alt={kelas.title} className="rounded-logo" />
         </div>
         <h1 className="title">{kelas.title}</h1>
-        <p className="subtitle">Pilih nominal top-up dan isi data untuk melanjutkan pembayaran</p>
+        <p className="subtitle">
+          Pilih nominal top-up dan isi data untuk melanjutkan pembayaran
+        </p>
       </div>
 
       <div className="card-container">
@@ -68,7 +70,6 @@ const KelasDetail = () => {
               selectedItem === harga ? "selected-card" : ""
             }`}
             onClick={() => handleSelectItem(harga)}
-            style={{ cursor: "pointer" }}
           >
             <Card.Body className="d-flex align-items-center">
               <img src={harga.image} alt={harga.type} className="card-image" />
@@ -82,6 +83,7 @@ const KelasDetail = () => {
       </div>
 
       <div className="form-container">
+        {/* Form Input */}
         <form className="form-input">
           {formConfig.type.split(", ").map((field, index) => (
             <input
@@ -96,6 +98,8 @@ const KelasDetail = () => {
             />
           ))}
         </form>
+
+        {/* Tombol Pembayaran */}
         <button
           className={`submit-btn ${
             formConfig.type
@@ -106,9 +110,8 @@ const KelasDetail = () => {
           }`}
           onClick={handlePayment}
           disabled={
-            !formConfig.type
-              .split(", ")
-              .every((field) => formData[field]) || !selectedItem
+            !formConfig.type.split(", ").every((field) => formData[field]) ||
+            !selectedItem
           }
         >
           Lanjutkan ke Pembayaran
