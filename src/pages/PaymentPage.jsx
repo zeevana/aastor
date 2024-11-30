@@ -36,15 +36,17 @@ const PaymentPage = () => {
                     // Format data untuk pesan WhatsApp
                     const message = `
 Halo! Saya telah melakukan pembayaran dengan detail berikut:
+
 --------------------------------------------
 🕹 *Game*: ${kelas.title}
 🎮 *Item*: ${selectedItem.type}
 💵 *Harga*: Rp ${selectedItem.price.toLocaleString("id-ID")}
 --------------------------------------------
+
 📄 *Data Game Saya:* 
 ${Object.entries(formData)
   .map(([key, value]) => `\n  ${key}: ${value}`)
-  .join("\n")}
+  .join("")}
   
 Terima kasih!
 `;
