@@ -896,7 +896,7 @@
   }
 
   .price-card {
-    width: 30%; /* Lebar 3 kolom dalam satu baris */
+    width: 48%; /* Lebar 2 kolom dalam satu baris, sekitar 48% agar pas */
     font-size: 12px; /* Ukuran font lebih kecil untuk layar kecil */
     padding: 10px; /* Padding lebih kecil */
   }
@@ -909,6 +909,7 @@
     font-size: 12px; /* Ukuran font lebih kecil dalam card */
   }
 }
+
 
 /* Responsif untuk layar lebih kecil (max-width 320px) */
 @media (max-width: 320px) {
