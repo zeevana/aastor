@@ -41,16 +41,11 @@ export const navLinks = [
   },
   {
     id: 3,
-    path: "testimonial",
-    text: "Testimonial",
-  },
-  {
-    id: 4,
     path: "faq",
     text: "FAQ",
   },
   {
-    id: 5,
+    id: 4,
     path: "terms-and-conditions",
     text: "Syarat & Ketentuan",
   },
@@ -71,7 +66,12 @@ export const formPay = [
     id:3,
     title: "Mobile Legends",
     type: "ID, Server, No Whatsapp"
-  }
+  },
+  {
+    id:4,
+    title: "PUBG Mobile",
+    type: "ID, No Whatsapp"
+  },
 ];
 
 
@@ -142,91 +142,6 @@ export const semuaKelas = [
       category: ["game_populer", 'game_android'],
       delay: "",
     },
-  {
-    id: 5,
-    image: KelasImage5,
-    star1: "fa-solid fa-star",
-    star2: "fa-solid fa-star",
-    star3: "fa-solid fa-star",
-    star4: "fa-solid fa-star",
-    star5: "fa-solid fa-star",
-    title: "Roblox",
-    price: [
-      { type: "2000 Robux", price: 378000 },
-      { type: "4500 Robux", price: 800000 },
-      { type: "10.000 Robux", price: 1550000 },
-    ],
-    category: "game_populer",
-    delay: "300",
-  },
-  {
-    id: 6,
-    image: KelasImage6,
-    star1: "fa-solid fa-star",
-    star2: "fa-solid fa-star",
-    star3: "fa-solid fa-star",
-    star4: "fa-solid fa-star",
-    star5: "fa-solid fa-star",
-    title: "Valorant",
-    price: [
-      { type: "moon x1", price: 100000 },
-      { type: "moon x2", price: 200000 },
-      { type: "moon x3", price: 300000 },
-    ],
-    category: "game_pc",
-    delay: "600",
-  },
-  {
-    id: 7,
-    image: KelasImage7,
-    star1: "fa-solid fa-star",
-    star2: "fa-solid fa-star",
-    star3: "fa-solid fa-star",
-    star4: "fa-solid fa-star",
-    star5: "fa-solid fa-star-half-stroke",
-    title: "Clash of Clans ",
-    price: [
-      { type: "moon x1", price: 100000 },
-      { type: "moon x2", price: 200000 },
-      { type: "moon x3", price: 300000 },
-    ],
-    category: "game_populer",
-    delay: "",
-  },
-  {
-    id: 8,
-    image: KelasImage8,
-    star1: "fa-solid fa-star",
-    star2: "fa-solid fa-star",
-    star3: "fa-solid fa-star",
-    star4: "fa-solid fa-star",
-    star5: "fa-solid fa-star-half-stroke",
-    title: "Undawn",
-    price: [
-      { type: "moon x1", price: 100000 },
-      { type: "moon x2", price: 200000 },
-      { type: "moon x3", price: 300000 },
-    ],
-    category: "game_populer",
-    delay: "300",
-  },
-  {
-    id: 9,
-    image: KelasImage9,
-    star1: "fa-solid fa-star",
-    star2: "fa-solid fa-star",
-    star3: "fa-solid fa-star",
-    star4: "fa-solid fa-star",
-    star5: "fa-solid fa-star-half-stroke",
-    title: "Black Clover",
-    price: [
-      { type: "moon x1", price: 100000 },
-      { type: "moon x2", price: 200000 },
-      { type: "moon x3", price: 300000 },
-    ],
-    category: "game_android",
-    delay: "600",
-  },
 ];
 
 
