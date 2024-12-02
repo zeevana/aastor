@@ -25,11 +25,10 @@ const FooterComponent = () => {
           </Col>
           <Col className="d-flex flex-column col-lg-2 col">
             <h5 className="fw-bold">Menu</h5>
-            <Link to="">Home</Link>
-            <Link to="">List Game</Link>
-            <Link to="">Testimoni</Link>
-            <Link to="">FAQ</Link>
-            <Link to="">Syarat & Ketentuan</Link>
+            <Link to="/">Home</Link>
+            <Link to="/kelas">List Game</Link>
+            <Link to="/faq">FAQ</Link>
+            <Link to="/terms-and-conditions">Syarat & Ketentuan</Link>
           </Col>
           <Col className="d-flex flex-column col-lg-2 col">
             <h5 className="fw-bold">Payments</h5>

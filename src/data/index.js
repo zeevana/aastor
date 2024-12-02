@@ -198,7 +198,7 @@ export const kelasTerbaru = [
     buy: "Check",
     delay: "",
   },
-  {
+  /*{
     id: 5,
     image: KelasImage5,
     star1: "fa-solid fa-star",
@@ -223,7 +223,7 @@ export const kelasTerbaru = [
     price: "Rp. 300.000",
     buy: "Check",
     delay: "400",
-  },
+  },*/
   
 ];
 
