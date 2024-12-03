@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
             // Konfigurasi Midtrans
             const snap = new midtransClient.Snap({
-                isProduction: false,
+                isProduction: true,
                 serverKey: process.env.MIDTRANS_SERVER_KEY,
             });
 
